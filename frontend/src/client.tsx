@@ -12,7 +12,7 @@ ws.on('open', () => {
 });
 
 ws.on('message', (data: WebSocket.Data) => {
-  console.log('Received message from server: ${data}');
+  console.log(`Received message from server: ${data}`);
 });
 
 ws.on('close', () => {
@@ -24,6 +24,6 @@ ws.on('error', (error: Error) => {
 });
 
 //Close the connection after 5 seconds (for example)
-setTimeout( () => {
+setTimeout(() => {
   ws.close();
 }, 5000);
