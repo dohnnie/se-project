@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface Lobby {
   name: string;
@@ -9,6 +9,47 @@ const LobbyInit: React.FC = () => {
   const [lobbyId, setLobbyId] = useState<string>('');
   const [newLobbyId, setNewLobbyId] = useState<string>('');
   const [lobbies, setLobbies] = useState<Lobby[]>([]);
+
+  const [socket, setSocket] = useState<WebSocket | null>(null);
+  const [message, setMessage] = useState<string>('');
+
+
+  useEffect(() => {
+    const ws = new WebSocket('ws://localhost:4001');
+
+    ws.onopen = () => {
+      console.log('WebSocket connection established');
+    };
+
+    ws.onmessage = (event: MessageEvent) => {
+      //Handle incoming messages
+    }
+
+    ws.onerror = (error: Event) => {
+      console.error(`WebSocket Error: ${error}`);
+    };
+
+    ws.onclose = () => {
+      console.log('WebSocket connection closed');
+    };
+
+    setSocket(ws);
+
+    return () => {
+      if (ws) {
+        ws.close();
+      }
+    };
+  }, []);
+
+  const handleSendMessage = () => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket.send(message);
+      setMessage('');
+    } else {
+      console.error('Websocket connection is not open');
+    }
+  };
 
   // Handle create lobby
   const handleCreateLobby = () => {
