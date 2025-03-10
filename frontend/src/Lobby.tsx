@@ -1,50 +1,46 @@
 import React, { useState, useEffect } from "react";
 
-type LobbyResponse = {
-  status: string;
-  player_id: number;
-  lobby: number;
-};
 
-const LobbyManager: React.FC = () => {
-  const [socket, setSocket] = useState<WebSocket | null>(null);
+const Lobby = ({ websocket }) => {
   const [lobbyId, setLobbyId] = useState<number | null>(null);
-  const [lobby_status, setLobbyStatus] = useState<string>("Close");
   const [playerId, setPlayerId] = useState<number | null>(null);
-  const [playerList, setPlayerList] = useState<number[]>([]);
+
 
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:4001");
 
-    ws.onopen = () => {
+    websocket.onopen = () => {
       console.log("Connected to WebSocker server");
-      setSocket(ws);
     }
 
-    ws.onmessage = (event) => {
+    websocket.onmessage = (event) => {
       const num = JSON.parse(event.data);
       console.log(num.number);
     };
 
-    ws.onerror = (error) => {
+    websocket.onerror = (error) => {
     };
 
-  }, []);
+    websocket.onclose = () => {
+      console.log("Connection Closed");
+      ws.send(JSON.stringify({ status: "close", message: "Connection close" }));
+    };
+
+  },);
 
   const handleCreateLobby = () => {
-    if (socket) {
-      setLobbyStatus("Open")
+    if (websocket) {
       //setPlayerList(
       setPlayerId(1);
-      socket.send(JSON.stringify({ player: "player 1", status: "create", player_id: playerId }));
+      websocket.send(JSON.stringify({ player: "player 1", status: "create", player_id: playerId }));
     }
   };
 
   const handleJoinLobby = (lobby_id: number) => {
-    if (socket) {
+    if (websocket) {
       setLobbyId(lobby_id);
       setPlayerId(2);
-      socket.send(JSON.stringify({ player: "player 2", status: "join", player_id: playerId, lobby_id: lobbyId }));
+      websocket.send(JSON.stringify({ player: "player 2", status: "join", player_id: playerId, lobby_id: lobbyId }));
     }
   };
 
@@ -56,4 +52,4 @@ const LobbyManager: React.FC = () => {
   );
 };
 
-export default LobbyManager;
+export default Lobby;

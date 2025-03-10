@@ -1,13 +1,18 @@
 import React from 'react';
-import WebSocketClient from './WebSocketClient';
-import LobbyInit from './LobbyInit';
-import LobbyManager from './LobbyManager';
+import Lobby from './Lobby';
+import socketIO from 'socket.io-client';
+import GamePage from './GamePage';
+
+const socket = socketIO.connect('http://localhost:4001');
 
 const App: React.FC = () => {
   return (
-    <div>
-      <LobbyManager />
-    </div>
+    <>
+      <meta name="viewport" content="initial-scale=1, width=device-width" />
+      <div>
+        <GamePage />
+      </div>
+    </>
   );
 }
 
