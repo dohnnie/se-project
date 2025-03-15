@@ -19,7 +19,7 @@ const GamePage = () => {
                 <p>Hello Header</p>
             </Box>
             {/* Wrapper div for layout*/}
-            <Box sx={{ minHeight: '92vh', minWidth: '100vw', flexDirection: 'row' }}>
+            <Box sx={{ minHeight: '92vh', minWidth: '100vw', display: "flex", flexDirection: "row" }}>
                 {/* Player list */}
                 <Box
                     sx={{
