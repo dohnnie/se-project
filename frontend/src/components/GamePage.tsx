@@ -1,11 +1,27 @@
 import React from 'react';
 import { Container, Box } from '@mui/material';
+import PlayerCard from './PlayerCard';
 
 const GamePage = () => {
 
+    const playerList = [
+        { name: 'John', points: 10 },
+        { name: 'Ryan', points: 25 },
+        { name: 'Jose', points: 4 },
+        { name: 'Tom', points: 100 },
+        { name: 'Mark', points: 44 },
+    ];
+
     return (
         /* Wrapper Div*/
-        <Container sx={{ bgcolor: 'black', minHeight: '100vh', minWidth: '100vw' }}>
+        <Container
+            sx={{
+                bgcolor: 'black',
+                minHeight: '100vh',
+                minWidth: '100vw',
+                display: "flex",
+                flexDirection: "column"
+            }}>
             { /* Header*/}
             <Box
                 sx={{
@@ -16,7 +32,6 @@ const GamePage = () => {
                     borderColor: 'white'
                 }}
             >
-                <p>Hello Header</p>
             </Box>
             {/* Wrapper div for layout*/}
             <Box sx={{ minHeight: '92vh', minWidth: '100vw', display: "flex", flexDirection: "row" }}>
@@ -28,7 +43,8 @@ const GamePage = () => {
                         minWidth: '25vw',
                     }}
                 >
-                    <p>Hello Players</p>
+                    {playerList.map(player =>
+                        <PlayerCard player={player} />)}
                 </Box>
                 {/* Play Area */}
                 <Box
@@ -38,7 +54,6 @@ const GamePage = () => {
                         minWidth: '50vw',
                     }}
                 >
-                    <p>Hello Play</p>
                 </Box>
                 {/* Chat */}
                 <Box
@@ -48,7 +63,6 @@ const GamePage = () => {
                         minWidth: '25vw',
                     }}
                 >
-                    <p>Hello Chat</p>
                 </Box>
             </Box>
         </Container>
