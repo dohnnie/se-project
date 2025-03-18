@@ -1,17 +1,23 @@
 import React from 'react';
-import Lobby from './Lobby';
-import socketIO from 'socket.io-client';
+import { io } from 'socket.io-client';
 import GamePage from './components/GamePage';
+import LobbyPage from './components/LobbyPage';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-const socket = socketIO.connect('http://localhost:4001');
+const socket = io('http://localhost:4001');
 
 const App: React.FC = () => {
   return (
     <>
       <meta name="viewport" content="initial-scale=1, width=device-width" />
-      <div>
-        <GamePage />
-      </div>
+      <BrowserRouter>
+        <div>
+          <Routes>
+            <Route path="/" element={<LobbyPage socket={socket} />} />
+            <Route path="/game" element={<GamePage socket={socket} />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
     </>
   );
 }

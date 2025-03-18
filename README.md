@@ -1,3 +1,0 @@
-# PicPrompt
-
-Game

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Container, Box } from '@mui/material';
+import { Container, Box, Button } from '@mui/material';
 import PlayerCard from './PlayerCard';
 
-const GamePage = () => {
+const GamePage = ({ websocket }) => {
 
     const playerList = [
         { name: 'John', points: 10 },
@@ -29,9 +29,17 @@ const GamePage = () => {
                     minHeight: '8vh',
                     minWidth: '100vw',
                     border: 2,
-                    borderColor: 'white'
+                    borderColor: 'cyan',
+                    display: 'flex',
+                    flexDirection: 'row',
                 }}
             >
+                <h1>Picprompt</h1>
+                <Button sx={{
+                    px: 10,
+                }} variant='contained'>
+                    Lobbies
+                </Button>
             </Box>
             {/* Wrapper div for layout*/}
             <Box sx={{ minHeight: '92vh', minWidth: '100vw', display: "flex", flexDirection: "row" }}>
@@ -40,7 +48,7 @@ const GamePage = () => {
                     sx={{
                         bgcolor: 'blue',
                         minHeight: '92vh',
-                        minWidth: '25vw',
+                        minWidth: '10vw',
                     }}
                 >
                     {playerList.map(player =>
@@ -51,7 +59,8 @@ const GamePage = () => {
                     sx={{
                         bgcolor: 'red',
                         minHeight: '92vh',
-                        minWidth: '50vw',
+                        minWidth: '60vw',
+                        maxWidth: '70vw',
                     }}
                 >
                 </Box>
@@ -60,7 +69,7 @@ const GamePage = () => {
                     sx={{
                         bgcolor: 'orange',
                         minHeight: '92vh',
-                        minWidth: '25vw',
+                        minWidth: '17vw',
                     }}
                 >
                 </Box>

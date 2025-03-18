@@ -9,11 +9,14 @@ const PlayerCard = ({ player }) => {
         <Box sx={{
             display: 'flex',
             flexDirection: 'row',
+            bgcolor: 'white',
+            maxHeight: '25vh',
+            maxWidth: '100vw',
         }}>
-            <h1>Player ID icon</h1>
+            <p>Player ID icon</p>
             <h2>{name}</h2>
-            <h3>Prompting Role Icon Here</h3>
-            <h3>Winning Icon Here</h3>
+            <p>Prompting Role Icon Here</p>
+            <p>Winning Icon Here</p>
             <p>{points}</p>
         </Box>
     );
