@@ -7,6 +7,7 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+
 // Initialize Replicate client
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
@@ -16,6 +17,14 @@ const replicate = new Replicate({
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
+
+const socket = require("socket.io");
+socket.on('connection', (socket) => {
+  console.log(`${socket.id} has connected`);
+  socket.on('disconnect', () => {
+    console.log('A user has disconnected');
+  });
+});
 
 app.get('/api', (req, res) => {
   res.json({
