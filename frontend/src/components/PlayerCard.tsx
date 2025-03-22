@@ -12,6 +12,8 @@ const PlayerCard = ({ player }) => {
             bgcolor: 'white',
             maxHeight: '25vh',
             maxWidth: '100vw',
+            my: '5px',
+            p: '5px'
         }}>
             <p>Player ID icon</p>
             <h2>{name}</h2>

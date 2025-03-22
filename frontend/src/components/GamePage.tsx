@@ -4,6 +4,7 @@ import { Container, Box, Button } from '@mui/material';
 import PlayerCard from './PlayerCard';
 import ChatBody from './ChatBody';
 import ChatFooter from './ChatFooter';
+import GameArea from './GameArea';
 
 const GamePage = ({ socket }) => {
     const navigate = useNavigate();
@@ -22,11 +23,11 @@ const GamePage = ({ socket }) => {
     };
 
     return (
-        <Container
+        <Box
             sx={{
                 bgcolor: 'black',
-                minHeight: '100vh',
-                minWidth: '100vw',
+                maxHeight: '100vh',
+                maxWidth: '100%',
                 display: "flex",
                 flexDirection: "column"
             }}>
@@ -60,7 +61,7 @@ const GamePage = ({ socket }) => {
                     {playerList.map(player =>
                         <PlayerCard player={player} />)}
                 </Box>
-                <Box
+                <Container
                     sx={{
                         bgcolor: 'red',
                         minHeight: '92vh',
@@ -68,19 +69,20 @@ const GamePage = ({ socket }) => {
                         maxWidth: '70vw',
                     }}
                 >
-                </Box>
+                    <GameArea />
+                </Container>
                 <Box
                     sx={{
                         bgcolor: 'orange',
                         minHeight: '92vh',
-                        minWidth: '17vw',
+                        minWidth: '17%',
                     }}
                 >
                     <ChatBody />
                     <ChatFooter />
                 </Box>
             </Box>
-        </Container>
+        </Box>
     );
 };
 

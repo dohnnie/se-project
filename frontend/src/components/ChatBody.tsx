@@ -12,6 +12,8 @@ const ChatBody = () => {
             bgcolor: '#fff',
             padding: '20px',
             overflowY: 'scroll',
+            display: 'flex',
+            flexDirection: 'column-reverse'
         }}>
             <ClientMessage />
             <Message />
