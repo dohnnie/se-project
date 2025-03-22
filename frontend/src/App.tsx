@@ -4,7 +4,7 @@ import GamePage from './components/GamePage';
 import LobbyPage from './components/LobbyPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-const socket = io('http://localhost:4001');
+const socket = io('http://localhost:3000');
 
 const App: React.FC = () => {
   return (

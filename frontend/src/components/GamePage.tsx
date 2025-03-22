@@ -1,8 +1,12 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Container, Box, Button } from '@mui/material';
 import PlayerCard from './PlayerCard';
+import ChatBody from './ChatBody';
+import ChatFooter from './ChatFooter';
 
 const GamePage = ({ socket }) => {
+    const navigate = useNavigate();
 
     const playerList = [
         { name: 'John', points: 10 },
@@ -12,8 +16,12 @@ const GamePage = ({ socket }) => {
         { name: 'Mark', points: 44 },
     ];
 
+    const handleLobby = (event) => {
+        event.preventDefault();
+        navigate('/');
+    };
+
     return (
-        /* Wrapper Div*/
         <Container
             sx={{
                 bgcolor: 'black',
@@ -22,7 +30,6 @@ const GamePage = ({ socket }) => {
                 display: "flex",
                 flexDirection: "column"
             }}>
-            { /* Header*/}
             <Box
                 sx={{
                     bgcolor: 'hotpink',
@@ -37,13 +44,12 @@ const GamePage = ({ socket }) => {
                 <h1>Picprompt</h1>
                 <Button
                     variant='contained'
+                    onClick={handleLobby}
                 >
                     Lobbies
                 </Button>
             </Box>
-            {/* Wrapper div for layout*/}
             <Box sx={{ minHeight: '92vh', minWidth: '100vw', display: "flex", flexDirection: "row" }}>
-                {/* Player list */}
                 <Box
                     sx={{
                         bgcolor: 'blue',
@@ -54,7 +60,6 @@ const GamePage = ({ socket }) => {
                     {playerList.map(player =>
                         <PlayerCard player={player} />)}
                 </Box>
-                {/* Play Area */}
                 <Box
                     sx={{
                         bgcolor: 'red',
@@ -64,7 +69,6 @@ const GamePage = ({ socket }) => {
                     }}
                 >
                 </Box>
-                {/* Chat */}
                 <Box
                     sx={{
                         bgcolor: 'orange',
@@ -72,6 +76,8 @@ const GamePage = ({ socket }) => {
                         minWidth: '17vw',
                     }}
                 >
+                    <ChatBody />
+                    <ChatFooter />
                 </Box>
             </Box>
         </Container>
