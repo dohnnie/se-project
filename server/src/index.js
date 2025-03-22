@@ -6,6 +6,9 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const expressServer = app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 
 // Initialize Replicate client
@@ -18,9 +21,18 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-const socket = require("socket.io");
-socket.on('connection', (socket) => {
-  console.log(`${socket.id} has connected`);
+const { Server } = require('socket.io');
+const io = new Server(expressServer, () => {
+  cors: [
+    `http://localhost:${PORT}`,
+  ]
+});
+io.on('connection', socket => {
+  console.log(socket.handshake);
+  console.log(`${socket.id} has joined the server!`);
+  socket.on('create', (player) => {
+    console.log(`${player.name} has joined a lobby`);
+  });
   socket.on('disconnect', () => {
     console.log('A user has disconnected');
   });
@@ -93,10 +105,3 @@ app.post('/api/generate-image', async (req, res) => {
     res.status(500).json({ error: 'Failed to generate image', details: error.message });
   }
 });
-
-
-// Server start
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
