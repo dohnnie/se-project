@@ -18,6 +18,13 @@ const GamePage = ({ socket, status = 4 }) => {
         { name: 'Mark', points: 44 },
     ];
 
+    const answers = [
+        "cat",
+        "dog",
+        "animal",
+        "This is a default prompt answer"
+    ];
+
     const handleLobby = (event) => {
         event.preventDefault();
         navigate('/');
@@ -30,7 +37,7 @@ const GamePage = ({ socket, status = 4 }) => {
                 maxHeight: '100vh',
                 maxWidth: '100%',
                 display: "flex",
-                flexDirection: "column"
+                flexDirection: "column",
             }}>
             <Box
                 sx={{
@@ -70,7 +77,7 @@ const GamePage = ({ socket, status = 4 }) => {
                         maxWidth: '70vw',
                     }}
                 >
-                    {(status !== 4) ? (<GameArea />) : (<VotingArea />)}
+                    {(status !== 4) ? (<GameArea />) : (<VotingArea prompts={answers} />)}
                 </Container>
                 <Box
                     sx={{
