@@ -5,8 +5,9 @@ import PlayerCard from './PlayerCard';
 import ChatBody from './ChatBody';
 import ChatFooter from './ChatFooter';
 import GameArea from './GameArea';
+import VotingArea from './VotingArea';
 
-const GamePage = ({ socket }) => {
+const GamePage = ({ socket, status = 4 }) => {
     const navigate = useNavigate();
 
     const playerList = [
@@ -69,7 +70,7 @@ const GamePage = ({ socket }) => {
                         maxWidth: '70vw',
                     }}
                 >
-                    <GameArea />
+                    {(status !== 4) ? (<GameArea />) : (<VotingArea />)}
                 </Container>
                 <Box
                     sx={{
