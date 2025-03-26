@@ -12,11 +12,15 @@ const Prompts = ({ prompt }) => {
             minHeight: '10vh',
             minWidth: '50%',
         }}>
+<<<<<<< HEAD
             <Button sx={{ 
                 fontSize: '30px',
                 p: '5px',
                 color: 'black',
             }}>{prompt}</Button>
+=======
+            <Button sx={{ fontSize: '40px', color: 'black', minHeight: '100%', minWidth: '100%', borderRadius: '10px' }}>{prompt}</Button>
+>>>>>>> e609475 (Added icons to player list)
         </Box>
     );
 }

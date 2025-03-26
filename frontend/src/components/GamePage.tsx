@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Box, Button } from '@mui/material';
+import { Container, Box, Button, Typography, Divider } from '@mui/material';
 import PlayerCard from './PlayerCard';
 import ChatBody from './ChatBody';
 import ChatFooter from './ChatFooter';
@@ -34,16 +34,27 @@ const GamePage = ({ socket, status = 4 }) => {
         <Box
             sx={{
                 bgcolor: 'black',
+<<<<<<< HEAD
                 maxHeight: '100vh',
                 maxWidth: '100vw',
+=======
+                maxHeight: 'calc(100vh - 10px)',
+                maxWidth: '100%',
+>>>>>>> e609475 (Added icons to player list)
                 display: "flex",
                 flexDirection: "column",
+                m: '0',
             }}>
             <Box
                 sx={{
                     bgcolor: 'hotpink',
+<<<<<<< HEAD
                     minHeight: '8vh',
                     minWidth: '100%',
+=======
+                    maxHeight: '8vh',
+                    minWidth: '100vw',
+>>>>>>> e609475 (Added icons to player list)
                     border: 2,
                     borderColor: 'cyan',
                     display: 'flex',
@@ -53,10 +64,24 @@ const GamePage = ({ socket, status = 4 }) => {
                     padding: "0 16px",
                 }}
             >
-                <h1>Picprompt</h1>
+                <Typography component='h1'
+                    sx={{
+                        fontSize: '70px',
+                        m: 1,
+                    }}
+                >
+                    Picprompt
+                </Typography>
                 <Button
-                    variant='contained'
+                    variant='text'
                     onClick={handleLobby}
+                    sx={{
+                        size: 'small',
+                        minHeight: '5vh',
+                        display: 'flex',
+                        color: 'black',
+                        m: 1,
+                    }}
                 >
                     Lobbies
                 </Button>
@@ -73,10 +98,28 @@ const GamePage = ({ socket, status = 4 }) => {
                     sx={{
                         bgcolor: 'blue',
                         minHeight: '92vh',
+<<<<<<< HEAD
                         minWidth: '20vw',
                         maxWidth: "20%",
+=======
+                        minWidth: '10vw',
+                        borderRadius: '15px',
+>>>>>>> e609475 (Added icons to player list)
                     }}
                 >
+                    <Typography
+                        component='h1'
+                        sx={{
+                            fontSize: '70px',
+                            display: 'flex',
+                            alignContent: 'center',
+                            justifyContent: 'center',
+                            bgcolor: 'white',
+                        }}
+                    >
+                        Players
+                    </Typography>
+                    <Divider />
                     {playerList.map(player =>
                         <PlayerCard player={player} />)}
                 </Box>
@@ -92,7 +135,7 @@ const GamePage = ({ socket, status = 4 }) => {
                         padding: "16px"
                     }}
                 >
-                    {(status !== 4) ? (<GameArea />) : (<VotingArea prompts={answers} />)}
+                    {(status !== 4) ? (<GameArea status={status} />) : (<VotingArea prompts={answers} />)}
                 </Container>
                 <Box
                     sx={{
