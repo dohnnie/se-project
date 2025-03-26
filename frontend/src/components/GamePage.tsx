@@ -31,7 +31,7 @@ const GamePage = ({ socket, status = 4 }) => {
     };
 
     return (
-        <Box
+        <Box // page wrapper
             sx={{
                 bgcolor: 'black',
                 maxHeight: '100vh',
@@ -39,7 +39,7 @@ const GamePage = ({ socket, status = 4 }) => {
                 display: "flex",
                 flexDirection: "column",
             }}>
-            <Box
+            <Box // header
                 sx={{
                     bgcolor: 'hotpink',
                     minHeight: '8vh',
@@ -61,7 +61,7 @@ const GamePage = ({ socket, status = 4 }) => {
                     Lobbies
                 </Button>
             </Box>
-            <Box
+            <Box // main wrapper
                 sx={{ 
                     display: "flex", 
                     flexDirection: "row",
@@ -69,7 +69,7 @@ const GamePage = ({ socket, status = 4 }) => {
                     minWidth: '100vw', 
                     maxWidth: "100vw",
                 }}>
-                <Box
+                <Box // player cards sidebar
                     sx={{
                         bgcolor: 'blue',
                         minHeight: '92vh',
@@ -80,7 +80,7 @@ const GamePage = ({ socket, status = 4 }) => {
                     {playerList.map(player =>
                         <PlayerCard player={player} />)}
                 </Box>
-                <Container
+                <Container // game/voting area
                     sx={{
                         bgcolor: 'red',
                         minHeight: '92vh',
@@ -94,7 +94,7 @@ const GamePage = ({ socket, status = 4 }) => {
                 >
                     {(status !== 4) ? (<GameArea />) : (<VotingArea prompts={answers} />)}
                 </Container>
-                <Box
+                <Box // chatbox sidebar
                     sx={{
                         display: "flex",
                         flexDirection: "column",
