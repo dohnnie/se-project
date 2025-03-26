@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Box, Button } from '@mui/material';
+import { Container, Box, Button, Typography, Divider } from '@mui/material';
 import PlayerCard from './PlayerCard';
 import ChatBody from './ChatBody';
 import ChatFooter from './ChatFooter';
@@ -34,15 +34,16 @@ const GamePage = ({ socket, status = 4 }) => {
         <Box
             sx={{
                 bgcolor: 'black',
-                maxHeight: '100vh',
+                maxHeight: 'calc(100vh - 10px)',
                 maxWidth: '100%',
                 display: "flex",
                 flexDirection: "column",
+                m: '0',
             }}>
             <Box
                 sx={{
                     bgcolor: 'hotpink',
-                    minHeight: '8vh',
+                    maxHeight: '8vh',
                     minWidth: '100vw',
                     border: 2,
                     borderColor: 'cyan',
@@ -50,10 +51,24 @@ const GamePage = ({ socket, status = 4 }) => {
                     flexDirection: 'row',
                 }}
             >
-                <h1>Picprompt</h1>
+                <Typography component='h1'
+                    sx={{
+                        fontSize: '70px',
+                        m: 1,
+                    }}
+                >
+                    Picprompt
+                </Typography>
                 <Button
-                    variant='contained'
+                    variant='text'
                     onClick={handleLobby}
+                    sx={{
+                        size: 'small',
+                        minHeight: '5vh',
+                        display: 'flex',
+                        color: 'black',
+                        m: 1,
+                    }}
                 >
                     Lobbies
                 </Button>
@@ -64,8 +79,22 @@ const GamePage = ({ socket, status = 4 }) => {
                         bgcolor: 'blue',
                         minHeight: '92vh',
                         minWidth: '10vw',
+                        borderRadius: '15px',
                     }}
                 >
+                    <Typography
+                        component='h1'
+                        sx={{
+                            fontSize: '70px',
+                            display: 'flex',
+                            alignContent: 'center',
+                            justifyContent: 'center',
+                            bgcolor: 'white',
+                        }}
+                    >
+                        Players
+                    </Typography>
+                    <Divider />
                     {playerList.map(player =>
                         <PlayerCard player={player} />)}
                 </Box>
@@ -77,7 +106,7 @@ const GamePage = ({ socket, status = 4 }) => {
                         maxWidth: '70vw',
                     }}
                 >
-                    {(status !== 4) ? (<GameArea />) : (<VotingArea prompts={answers} />)}
+                    {(status !== 4) ? (<GameArea status={status} />) : (<VotingArea prompts={answers} />)}
                 </Container>
                 <Box
                     sx={{

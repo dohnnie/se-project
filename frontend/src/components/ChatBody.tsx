@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import ClientMessage from './ClientMessage';
 import Message from './Message';
 
 const ChatBody = () => {
@@ -10,12 +9,12 @@ const ChatBody = () => {
             width: '100%',
             height: '80vh',
             bgcolor: '#fff',
-            padding: '20px',
+            px: '20px',
             overflowY: 'scroll',
             display: 'flex',
             flexDirection: 'column-reverse'
         }}>
-            <ClientMessage />
+            <Message />
             <Message />
         </Box >
     );
