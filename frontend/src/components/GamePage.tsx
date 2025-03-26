@@ -35,7 +35,7 @@ const GamePage = ({ socket, status = 4 }) => {
             sx={{
                 bgcolor: 'black',
                 maxHeight: '100vh',
-                maxWidth: '100%',
+                maxWidth: '100vw',
                 display: "flex",
                 flexDirection: "column",
             }}>
@@ -43,7 +43,7 @@ const GamePage = ({ socket, status = 4 }) => {
                 sx={{
                     bgcolor: 'hotpink',
                     minHeight: '8vh',
-                    minWidth: '100vw',
+                    minWidth: '100%',
                     border: 2,
                     borderColor: 'cyan',
                     display: 'flex',
@@ -63,18 +63,18 @@ const GamePage = ({ socket, status = 4 }) => {
             </Box>
             <Box // main wrapper
                 sx={{ 
+                    display: "flex", 
+                    flexDirection: "row",
                     minHeight: '92vh', 
                     minWidth: '100vw', 
-                    display: "flex", 
-                    flexDirection: "row" 
+                    maxWidth: "100vw",
                 }}>
                 <Box // player cards sidebar
                     sx={{
                         bgcolor: 'blue',
                         minHeight: '92vh',
-                        minWidth: '10%',
+                        minWidth: '20vw',
                         maxWidth: "20%",
-                        overflowY: "auto"
                     }}
                 >
                     {playerList.map(player =>
@@ -84,10 +84,9 @@ const GamePage = ({ socket, status = 4 }) => {
                     sx={{
                         bgcolor: 'red',
                         minHeight: '92vh',
-                        minWidth: '60%',
+                        minWidth: '60vw',
+                        maxWidth: "60%",
                         flexGrow: 1,
-                        display: "flex",
-                        flexDirection: "column",
                         justifyConent: "center",
                         alignItems: "center",
                         padding: "16px"
@@ -97,13 +96,13 @@ const GamePage = ({ socket, status = 4 }) => {
                 </Container>
                 <Box // chatbox sidebar
                     sx={{
-                        bgcolor: 'orange',
-                        minHeight: '92vh',
-                        minWidth: "15%",
                         display: "flex",
                         flexDirection: "column",
+                        minHeight: '92vh',
+                        minWidth: "20vw",
+                        maxWidth: "20%",
+                        bgcolor: 'orange',
                         justifyContent: "space-between",
-                        overflowY: "hidden",
                     }}
                 >
                     <ChatBody />

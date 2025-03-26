@@ -14,15 +14,16 @@ const ChatFooter = () => {
             sx={{
                 p: '10px',
                 bgcolor: '#f9f5eb',
-                height: '10vh'
+                height: '10vh',
+                maxWidth: "20vw",
             }}>
             <Box component='form'>
                 <FormControl
                     sx={{
-                        width: '100%',
-                        height: '100%',
                         display: 'flex',
                         flexDirection: 'row',
+                        width: '100%',
+                        height: '100%',
                         alignItems: 'center',
                         justifyContent: 'space-between'
                     }}>
@@ -33,16 +34,16 @@ const ChatFooter = () => {
                         onChange={(e) => setMessage(e.target.value)}
                         sx={{
                             width: '80%',
-                            height: '100%',
                             borderRadius: '10px',
                             border: '1px solid #ddd',
                             outline: 'none',
-                            p: '15px'
+                            p: '15px',
+                            margin: "5px",
                         }}
                     />
                     <Button
                         sx={{
-                            width: '150px',
+                            width: '20%',
                             bgcolor: 'green',
                             p: '10px',
                             border: 'none',

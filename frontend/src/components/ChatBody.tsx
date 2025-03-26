@@ -6,14 +6,14 @@ const ChatBody = () => {
 
     return (
         <Box sx={{
-            mb: '10px',
-            width: '100%',
+            display: 'flex',
+            flexDirection: 'column-reverse',
+            maxwidth: '20vw',
             height: '80vh',
+            mb: '10px',
             bgcolor: '#fff',
             padding: '20px',
             overflowY: 'scroll',
-            display: 'flex',
-            flexDirection: 'column-reverse'
         }}>
             <ClientMessage />
             <Message />

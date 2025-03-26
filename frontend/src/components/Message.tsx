@@ -6,7 +6,7 @@ const Message = () => {
             <Typography component='p'>Other</Typography>
             <Box sx={{
                 bgcolor: '#f5ccc2',
-                width: '300px',
+                width: '80%',
                 p: '10px',
                 borderRadius: '10px',
                 fontSize: '15px',

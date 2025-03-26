@@ -11,7 +11,7 @@ const ClientMessage = () => {
                 }}>You</Typography>
             <Box sx={{
                 bgcolor: '#c2f3c2',
-                maxWidth: '300px',
+                maxWidth: '80%',
                 p: '10px',
                 borderRadius: '10px',
                 marginLeft: 'auto',
