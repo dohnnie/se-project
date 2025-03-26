@@ -12,7 +12,15 @@ const Prompts = ({ prompt }) => {
             minHeight: '10vh',
             minWidth: '50%',
         }}>
+<<<<<<< HEAD
+            <Button sx={{ 
+                fontSize: '30px',
+                p: '5px',
+                color: 'black',
+            }}>{prompt}</Button>
+=======
             <Button sx={{ fontSize: '40px', color: 'black', minHeight: '100%', minWidth: '100%', borderRadius: '10px' }}>{prompt}</Button>
+>>>>>>> e609475 (Added icons to player list)
         </Box>
     );
 }
@@ -20,15 +28,17 @@ const Prompts = ({ prompt }) => {
 const VotingArea = ({ prompts }) => {
     return (
         <Box sx={{
-            flexDirection: 'row',
             display: 'flex',
+            flexDirection: 'row',
+            justifyContent: "center",
+            maxWidth: "60vw",
             my: '100px'
         }}>
             <Box sx={{
                 borderRadius: '10px',
                 bgcolor: 'gold',
                 height: '50vh',
-                width: '50%',
+                maxWidth: '40%',
             }}>
                 <img src="../../public/cat.webp"
                     alt="Image of a cat licking its cheek"
@@ -39,7 +49,7 @@ const VotingArea = ({ prompts }) => {
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                minWidth: '50%',
+                maxWidth: '60%',
                 minHeight: '50vh',
             }}>
                 <Container>

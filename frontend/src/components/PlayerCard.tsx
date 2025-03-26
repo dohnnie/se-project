@@ -12,7 +12,50 @@ const PlayerCard = ({ player }) => {
         <Box sx={{
             display: 'flex',
             flexDirection: 'row',
+            alignItems: "center",
+            justifyContent: "space-between",
             bgcolor: 'white',
+<<<<<<< HEAD
+            overflowWrap: "break-word",
+            my: '5px',
+            p: '5px', 
+            maxWidth: "20vw"
+        }}>            
+            <p
+            style={{
+                flex: "1 1 0",
+                minWidth: "0", 
+                textAlign: "center",
+            }}>Player ID icon</p>
+            <h2
+            style={{
+                margin: "0 10px",
+                flex: "1 1 0",
+                minWidth: "0", 
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+            }}>{name}</h2>
+            <p
+            style={{
+                flex: "1 1 0",
+                minWidth: "0", 
+                textAlign: "center",
+            }}>Prompting Role Icon Here</p>
+            <p
+            style={{
+                flex: "1 1 0",
+                minWidth: "0", 
+                textAlign: "center",
+            }}>Winning Icon Here</p>
+            <p
+            style={{
+                flex: "1 1 0",
+                fontWeight: "bold",
+                minWidth: "0", 
+                textAlign: "center",
+            }}>{points}</p>
+=======
             maxHeight: '25vh',
             maxWidth: '100vw',
             minWidth: '100vw',
@@ -68,6 +111,7 @@ const PlayerCard = ({ player }) => {
                     {points}
                 </Typography>
             </Box>
+>>>>>>> e609475 (Added icons to player list)
         </Box>
     );
 }

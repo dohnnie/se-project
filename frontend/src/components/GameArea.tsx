@@ -18,6 +18,7 @@ const GameArea = ({ status = 2 }) => {
         <Box sx={{
             display: 'flex',
             flexDirection: 'column',
+            maxWidth: "60vw"
         }}>
             {(status === 0) ? (
                 <Typography sx={{ fontSize: '75px' }}>Waiting for Players</Typography>

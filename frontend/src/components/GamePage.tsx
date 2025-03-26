@@ -34,6 +34,10 @@ const GamePage = ({ socket, status = 4 }) => {
         <Box
             sx={{
                 bgcolor: 'black',
+<<<<<<< HEAD
+                maxHeight: '100vh',
+                maxWidth: '100vw',
+=======
                 maxHeight: 'calc(100vh - 10px)',
                 maxWidth: '100%',
                 display: "flex",
@@ -43,12 +47,20 @@ const GamePage = ({ socket, status = 4 }) => {
             <Box
                 sx={{
                     bgcolor: 'hotpink',
+<<<<<<< HEAD
+                    minHeight: '8vh',
+                    minWidth: '100%',
+=======
                     maxHeight: '8vh',
                     minWidth: '100vw',
+>>>>>>> e609475 (Added icons to player list)
                     border: 2,
                     borderColor: 'cyan',
                     display: 'flex',
                     flexDirection: 'row',
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "0 16px",
                 }}
             >
                 <Typography component='h1'
@@ -73,13 +85,25 @@ const GamePage = ({ socket, status = 4 }) => {
                     Lobbies
                 </Button>
             </Box>
-            <Box sx={{ minHeight: '92vh', minWidth: '100vw', display: "flex", flexDirection: "row" }}>
+            <Box
+                sx={{ 
+                    display: "flex", 
+                    flexDirection: "row",
+                    minHeight: '92vh', 
+                    minWidth: '100vw', 
+                    maxWidth: "100vw",
+                }}>
                 <Box
                     sx={{
                         bgcolor: 'blue',
                         minHeight: '92vh',
+<<<<<<< HEAD
+                        minWidth: '20vw',
+                        maxWidth: "20%",
+=======
                         minWidth: '10vw',
                         borderRadius: '15px',
+>>>>>>> e609475 (Added icons to player list)
                     }}
                 >
                     <Typography
@@ -103,16 +127,24 @@ const GamePage = ({ socket, status = 4 }) => {
                         bgcolor: 'red',
                         minHeight: '92vh',
                         minWidth: '60vw',
-                        maxWidth: '70vw',
+                        maxWidth: "60%",
+                        flexGrow: 1,
+                        justifyConent: "center",
+                        alignItems: "center",
+                        padding: "16px"
                     }}
                 >
                     {(status !== 4) ? (<GameArea status={status} />) : (<VotingArea prompts={answers} />)}
                 </Container>
                 <Box
                     sx={{
-                        bgcolor: 'orange',
+                        display: "flex",
+                        flexDirection: "column",
                         minHeight: '92vh',
-                        minWidth: '17%',
+                        minWidth: "20vw",
+                        maxWidth: "20%",
+                        bgcolor: 'orange',
+                        justifyContent: "space-between",
                     }}
                 >
                     <ChatBody />
