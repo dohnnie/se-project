@@ -68,7 +68,7 @@ const GameArea = ({ status = 2 }) => {
                 minWidth: '100%',
             }}>
                 <img
-                    src="../../public/cat.webp"
+                    src="/cat.webp"
                     alt="Image of a cat licking it's cheek"
                     height='100%'
                     width='100%'

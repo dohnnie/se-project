@@ -1,8 +1,79 @@
 {
-  "hash": "5b7c468f",
+  "hash": "68f77b08",
   "configHash": "a8b8ef51",
-  "lockfileHash": "85f0591c",
-  "browserHash": "eef3cb66",
-  "optimized": {},
-  "chunks": {}
+  "lockfileHash": "bac5a6bc",
+  "browserHash": "45e88034",
+  "optimized": {
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "95555685",
+      "needsInterop": true
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "ee8c3bc5",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "f5f3a23c",
+      "needsInterop": true
+    },
+    "socket.io-client": {
+      "src": "../../node_modules/socket.io-client/build/esm/index.js",
+      "file": "socket__io-client.js",
+      "fileHash": "1b7c3628",
+      "needsInterop": false
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.mjs",
+      "file": "react-router-dom.js",
+      "fileHash": "1adaf09c",
+      "needsInterop": false
+    },
+    "@mui/material": {
+      "src": "../../node_modules/@mui/material/index.js",
+      "file": "@mui_material.js",
+      "fileHash": "f95d426f",
+      "needsInterop": false
+    },
+    "@mui/icons-material/Person": {
+      "src": "../../node_modules/@mui/icons-material/esm/Person.js",
+      "file": "@mui_icons-material_Person.js",
+      "fileHash": "935d0388",
+      "needsInterop": false
+    },
+    "@mui/icons-material/BorderColor": {
+      "src": "../../node_modules/@mui/icons-material/esm/BorderColor.js",
+      "file": "@mui_icons-material_BorderColor.js",
+      "fileHash": "0bcbff10",
+      "needsInterop": false
+    },
+    "@mui/icons-material/Star": {
+      "src": "../../node_modules/@mui/icons-material/esm/Star.js",
+      "file": "@mui_icons-material_Star.js",
+      "fileHash": "21ce92a8",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-UP6LQVYV": {
+      "file": "chunk-UP6LQVYV.js"
+    },
+    "chunk-C6WWHQR7": {
+      "file": "chunk-C6WWHQR7.js"
+    },
+    "chunk-4YNBVKQZ": {
+      "file": "chunk-4YNBVKQZ.js"
+    },
+    "chunk-TWJRYSII": {
+      "file": "chunk-TWJRYSII.js"
+    },
+    "chunk-DC5AMYBS": {
+      "file": "chunk-DC5AMYBS.js"
+    }
+  }
 }
