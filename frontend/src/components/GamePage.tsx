@@ -7,7 +7,7 @@ import ChatFooter from './ChatFooter';
 import GameArea from './GameArea';
 import VotingArea from './VotingArea';
 
-const GamePage = ({ socket, status = 4 }) => {
+const GamePage = ({ socket, status = 2 }) => {
     const navigate = useNavigate();
 
     const playerList = [
@@ -34,26 +34,17 @@ const GamePage = ({ socket, status = 4 }) => {
         <Box
             sx={{
                 bgcolor: 'black',
-<<<<<<< HEAD
                 maxHeight: '100vh',
                 maxWidth: '100vw',
-=======
-                maxHeight: 'calc(100vh - 10px)',
-                maxWidth: '100%',
                 display: "flex",
                 flexDirection: "column",
-                m: '0',
+                m: '0px',
             }}>
             <Box
                 sx={{
                     bgcolor: 'hotpink',
-<<<<<<< HEAD
                     minHeight: '8vh',
                     minWidth: '100%',
-=======
-                    maxHeight: '8vh',
-                    minWidth: '100vw',
->>>>>>> e609475 (Added icons to player list)
                     border: 2,
                     borderColor: 'cyan',
                     display: 'flex',
@@ -86,24 +77,19 @@ const GamePage = ({ socket, status = 4 }) => {
                 </Button>
             </Box>
             <Box
-                sx={{ 
-                    display: "flex", 
+                sx={{
+                    display: "flex",
                     flexDirection: "row",
-                    minHeight: '92vh', 
-                    minWidth: '100vw', 
-                    maxWidth: "100vw",
+                    minHeight: '92vh',
+                    minWidth: '100vw',
+                    maxWidth: '100vw',
                 }}>
                 <Box
                     sx={{
                         bgcolor: 'blue',
                         minHeight: '92vh',
-<<<<<<< HEAD
-                        minWidth: '20vw',
-                        maxWidth: "20%",
-=======
                         minWidth: '10vw',
                         borderRadius: '15px',
->>>>>>> e609475 (Added icons to player list)
                     }}
                 >
                     <Typography
@@ -127,7 +113,7 @@ const GamePage = ({ socket, status = 4 }) => {
                         bgcolor: 'red',
                         minHeight: '92vh',
                         minWidth: '60vw',
-                        maxWidth: "60%",
+                        maxWidth: '60%',
                         flexGrow: 1,
                         justifyConent: "center",
                         alignItems: "center",
@@ -141,8 +127,8 @@ const GamePage = ({ socket, status = 4 }) => {
                         display: "flex",
                         flexDirection: "column",
                         minHeight: '92vh',
-                        minWidth: "20vw",
-                        maxWidth: "20%",
+                        minWidth: "15%",
+                        maxWidth: '20%',
                         bgcolor: 'orange',
                         justifyContent: "space-between",
                     }}
