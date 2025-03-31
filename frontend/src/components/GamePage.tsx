@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Box, Button, Typography, Divider } from '@mui/material';
 import PlayerCard from './PlayerCard';
@@ -6,9 +6,15 @@ import ChatBody from './ChatBody';
 import ChatFooter from './ChatFooter';
 import GameArea from './GameArea';
 import VotingArea from './VotingArea';
+import WaitingArea from './WaitingArea';
+//import WinningVoteArea from './WinningVoteArea';
 
-const GamePage = ({ socket, status = 2 }) => {
+const GamePage = ({ socket }) => {
     const navigate = useNavigate();
+    
+    // Changed status to use this form so everytime 'setStatus(#)' is invoked, the page will reload with new Status
+    const [status, setStatus] = useState(0); 
+    const playerCount = 1;
 
     const playerList = [
         { name: 'John', points: 10 },
@@ -29,11 +35,28 @@ const GamePage = ({ socket, status = 2 }) => {
         event.preventDefault();
         navigate('/');
     };
+    
+    const startGame = (event) => { // updating 'status' to 2
+        event.preventDefault();
+        setStatus(2);
+    };
+    const renderGameContent = () => {
+        switch(status){
+            case 0:
+                return <WaitingArea playerCount={playerCount} onStartGame={startGame}/>;
+            case 4:
+                return <VotingArea prompts={answers} />;
+                /*case 5:
+                return <WinningVoteArea/>;*/
+            default:
+                return <GameArea status={status} />;
+        }
+    }
 
     return (
         <Box
             sx={{
-                bgcolor: 'black',
+                bgcolor: '#4D0036',
                 maxHeight: '100vh',
                 maxWidth: '100vw',
                 display: "flex",
@@ -42,20 +65,20 @@ const GamePage = ({ socket, status = 2 }) => {
             }}>
             <Box
                 sx={{
-                    bgcolor: 'hotpink',
+                    bgcolor: '#F35B66',
                     minHeight: '8vh',
                     minWidth: '100%',
                     border: 2,
-                    borderColor: 'cyan',
+                    borderColor: '#56A8F1',
                     display: 'flex',
                     flexDirection: 'row',
                     alignItems: "center",
                     justifyContent: "space-between",
-                    padding: "0 16px",
                 }}
             >
                 <Typography component='h1'
                     sx={{
+                        color: 'white',
                         fontSize: '70px',
                         m: 1,
                     }}
@@ -63,15 +86,15 @@ const GamePage = ({ socket, status = 2 }) => {
                     Picprompt
                 </Typography>
                 <Button
-                    variant='text'
-                    onClick={handleLobby}
                     sx={{
                         size: 'small',
                         minHeight: '5vh',
                         display: 'flex',
-                        color: 'black',
+                        color: 'white',
                         m: 1,
                     }}
+                    variant='text'
+                    onClick={handleLobby}
                 >
                     Lobbies
                 </Button>
@@ -86,7 +109,7 @@ const GamePage = ({ socket, status = 2 }) => {
                 }}>
                 <Box
                     sx={{
-                        bgcolor: 'blue',
+                        bgcolor: '#56A8F1',
                         minHeight: '92vh',
                         minWidth: '10vw',
                         borderRadius: '15px',
@@ -110,17 +133,17 @@ const GamePage = ({ socket, status = 2 }) => {
                 </Box>
                 <Container
                     sx={{
-                        bgcolor: 'red',
+                        bgcolor: '#F35B66',
                         minHeight: '92vh',
                         minWidth: '60vw',
                         maxWidth: '60%',
                         flexGrow: 1,
                         justifyConent: "center",
                         alignItems: "center",
-                        padding: "16px"
+                        padding: '0 !important',
                     }}
                 >
-                    {(status !== 4) ? (<GameArea status={status} />) : (<VotingArea prompts={answers} />)}
+                    {renderGameContent()}
                 </Container>
                 <Box
                     sx={{
@@ -129,7 +152,7 @@ const GamePage = ({ socket, status = 2 }) => {
                         minHeight: '92vh',
                         minWidth: "15%",
                         maxWidth: '20%',
-                        bgcolor: 'orange',
+                        bgcolor: '#004D17',
                         justifyContent: "space-between",
                     }}
                 >
