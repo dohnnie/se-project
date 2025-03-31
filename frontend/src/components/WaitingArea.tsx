@@ -2,9 +2,10 @@ import React from 'react';
 import { Box, Button, Typography } from '@mui/material';
 
 
-const WaitingArea = ({ playerCount, onStartGame }) => {
+const WaitingArea = () => {
     
     
+    const playerCount = 1;
     const MAX_PLAYERS = 5;
 
     
@@ -32,7 +33,6 @@ const WaitingArea = ({ playerCount, onStartGame }) => {
             </Typography>
             <Button
                 variant="contained"
-                onClick={onStartGame}
                 sx={{
                     bgcolor: '#004D17',
                     '&:hover': { bgcolor: '#56A8F1' },

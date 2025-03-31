@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Box, Button, Typography, Divider } from '@mui/material';
 import PlayerCard from './PlayerCard';
@@ -9,13 +9,9 @@ import VotingArea from './VotingArea';
 import WaitingArea from './WaitingArea';
 //import WinningVoteArea from './WinningVoteArea';
 
-const GamePage = ({ socket }) => {
+const GamePage = ({ socket, status = 0 }) => {
     const navigate = useNavigate();
     
-    // Changed status to use this form so everytime 'setStatus(#)' is invoked, the page will reload with new Status
-    const [status, setStatus] = useState(0); 
-    const playerCount = 1;
-
     const playerList = [
         { name: 'John', points: 10 },
         { name: 'Ryan', points: 25 },
@@ -36,14 +32,10 @@ const GamePage = ({ socket }) => {
         navigate('/');
     };
     
-    const startGame = (event) => { // updating 'status' to 2
-        event.preventDefault();
-        setStatus(2);
-    };
     const renderGameContent = () => {
         switch(status){
             case 0:
-                return <WaitingArea playerCount={playerCount} onStartGame={startGame}/>;
+                return <WaitingArea/>;
             case 4:
                 return <VotingArea prompts={answers} />;
                 /*case 5:
@@ -115,8 +107,7 @@ const GamePage = ({ socket }) => {
                         borderRadius: '15px',
                     }}
                 >
-                    <Typography
-                        component='h1'
+                    <Typography component='h1'
                         sx={{
                             fontSize: '70px',
                             display: 'flex',
