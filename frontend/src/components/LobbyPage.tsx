@@ -12,7 +12,7 @@ const LobbyPage = ({ socket }) => {
         e.preventDefault();
         console.log('Create button clicked!');
         console.log(`Name: ${name}`);
-        socket.emit('create', { name: name });
+        socket.emit('create', { name: name, id: socket.id });
         navigate('/game');
     };
 

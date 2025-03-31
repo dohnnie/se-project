@@ -12,53 +12,55 @@ const PlayerCard = ({ player }) => {
         <Box sx={{
             display: 'flex',
             flexDirection: 'row',
-            alignItems: 'start',
-            justifyContent: 'start',
             bgcolor: 'white',
             my: '5px',
             p: '5px',
             maxHeight: '25vh',
-            maxWidth: "100vw",
-            minWidth: '100vw',
+            maxWidth: '25vw',
+            minWidth: '25vw',
         }}>
-            <PersonIcon sx={{
-                fontSize: '35px',
-                my: '20px',
-                mx: '5px',
-            }} />
             <Box sx={{
-                my: '10px',
-                ml: '5px',
-                width: '14%',
-                pl: '10px'
+                float: 'left',
+                display: 'flex',
+                width: '45%',
             }}>
+                <PersonIcon sx={{
+                    fontSize: '35px',
+                    my: '20px',
+                    mx: '5px',
+                }} />
                 <Typography component='h1'
                     sx={{
-
+                        my: '10px',
+                        ml: '5px',
+                        width: '14%',
+                        pl: '10px',
                         fontSize: '40px',
                     }}
                 >
                     {name}
                 </Typography>
             </Box>
-            <BorderColorIcon sx={{
-                fontSize: '35px',
-                my: '20px',
-                mx: '5px',
-            }} />
-            <StarIcon sx={{
-                fontSize: '35px',
-                my: '20px',
-                mx: '5px',
-            }} />
-            <Box sx={{
-                display: 'flex',
-                justifyContent: 'end',
-                alignContent: 'end',
-                bgcolor: 'white',
-                minWidth: '2%',
-                maxWidth: '3%',
-            }}>
+            <Box
+                sx={{
+                    width: '50%',
+                    float: 'right',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'end',
+                    alignItems: 'end',
+                }}
+            >
+                <BorderColorIcon sx={{
+                    fontSize: '35px',
+                    my: '20px',
+                    mx: '5px',
+                }} />
+                <StarIcon sx={{
+                    fontSize: '35px',
+                    my: '20px',
+                    mx: '5px',
+                }} />
                 <Typography component='h1'
                     sx={{
                         fontSize: '37px',

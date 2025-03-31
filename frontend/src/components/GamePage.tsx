@@ -9,9 +9,9 @@ import VotingArea from './VotingArea';
 import WaitingArea from './WaitingArea';
 import WinningVoteArea from './WinningVoteArea';
 
-const GamePage = ({ socket, status = 5 }) => {
+const GamePage = ({ socket, status = 2 }) => {
     const navigate = useNavigate();
-    
+
     const playerList = [
         { name: 'John', points: 10 },
         { name: 'Ryan', points: 25 },
@@ -31,15 +31,15 @@ const GamePage = ({ socket, status = 5 }) => {
         event.preventDefault();
         navigate('/');
     };
-    
+
     const renderGameContent = () => {
-        switch(status){
+        switch (status) {
             case 0:
-                return <WaitingArea/>;
+                return <WaitingArea />;
             case 4:
                 return <VotingArea prompts={answers} />;
-                case 5:
-                return <WinningVoteArea winningPrompt={answers[0]} winnerName={playerList[0].name}/>;
+            case 5:
+                return <WinningVoteArea winningPrompt={answers[0]} winnerName={playerList[0].name} />;
             default:
                 return <GameArea status={status} />;
         }
@@ -86,7 +86,7 @@ const GamePage = ({ socket, status = 5 }) => {
                         color: 'white',
                         m: 1,
                     }}
-                    variant='text'
+                    variant=''
                     onClick={handleLobby}
                 >
                     Lobbies

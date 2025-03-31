@@ -27,14 +27,22 @@ const io = new Server(expressServer, () => {
     `http://localhost:${PORT}`,
   ]
 });
+
+let players = [];
+
 io.on('connection', socket => {
-  console.log(socket.handshake);
   console.log(`${socket.id} has joined the server!`);
   socket.on('create', (player) => {
     console.log(`${player.name} has joined a lobby`);
+    players.push(player);
+    console.log('Players: ', players);
+    io.emit('updateList', players);
   });
   socket.on('disconnect', () => {
     console.log('A user has disconnected');
+    players = players.filter(player => player.id !== socket.id);
+    io.emit('updateList', players);
+    socket.disconnect();
   });
 });
 
