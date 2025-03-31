@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Box, Button, Typography, Divider } from '@mui/material';
-import PlayerCard from './PlayerCard';
+import PlayerList from './PlayerList';
 import ChatBody from './ChatBody';
 import ChatFooter from './ChatFooter';
 import GameArea from './GameArea';
@@ -100,31 +100,9 @@ const GamePage = ({ socket, status = 2 }) => {
                     maxHeight: '92vh',
                     minWidth: '100vw',
                     maxWidth: '100vw',
+                    bgcolor: '#56A8F1',
                 }}>
-                <Box
-                    sx={{
-                        bgcolor: '#56A8F1',
-                        minHeight: '92vh',
-                        maxHeight: '92vh',
-                        minWidth: '10vw',
-                        borderRadius: '15px',
-                    }}
-                >
-                    <Typography component='h1'
-                        sx={{
-                            fontSize: '70px',
-                            display: 'flex',
-                            alignContent: 'center',
-                            justifyContent: 'center',
-                            bgcolor: 'white',
-                        }}
-                    >
-                        Players
-                    </Typography>
-                    <Divider />
-                    {playerList.map(player =>
-                        <PlayerCard player={player} />)}
-                </Box>
+                <PlayerList players={playerList} />
                 <Container
                     sx={{
                         bgcolor: '#F35B66',
