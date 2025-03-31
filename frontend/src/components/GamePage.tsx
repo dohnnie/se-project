@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Box, Button, Typography, Divider } from '@mui/material';
 import PlayerList from './PlayerList';
@@ -11,14 +11,15 @@ import WinningVoteArea from './WinningVoteArea';
 
 const GamePage = ({ socket, status = 2 }) => {
     const navigate = useNavigate();
+    const [players, setPlayers] = useState(() => []);
 
-    const playerList = [
-        { name: 'John', points: 10 },
-        { name: 'Ryan', points: 25 },
-        { name: 'Jose', points: 4 },
-        { name: 'Tom', points: 100 },
-        { name: 'Mark', points: 44 },
-    ];
+    useEffect(() => {
+        socket.on('updateList', pList => {
+            console.log(pList);
+            const newList = pList;
+            setPlayers(() => newList);
+        });
+    }, [socket, players]);
 
     const answers = [
         "cat",
@@ -86,7 +87,7 @@ const GamePage = ({ socket, status = 2 }) => {
                         color: 'white',
                         m: 1,
                     }}
-                    variant=''
+                    variant='contained'
                     onClick={handleLobby}
                 >
                     Lobbies
@@ -102,7 +103,7 @@ const GamePage = ({ socket, status = 2 }) => {
                     maxWidth: '100vw',
                     bgcolor: '#56A8F1',
                 }}>
-                <PlayerList players={playerList} />
+                <PlayerList players={players} />
                 <Container
                     sx={{
                         bgcolor: '#F35B66',

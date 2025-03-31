@@ -2,11 +2,12 @@ import PersonIcon from '@mui/icons-material/Person';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import StarIcon from '@mui/icons-material/Star';
 import { Box, Typography } from '@mui/material';
+import { useState } from 'react';
 
 const PlayerCard = ({ player }) => {
+    const [points, setPoints] = useState(() => 0);
 
     const name = player.name;
-    const points = player.points;
 
     return (
         <Box sx={{
