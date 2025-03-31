@@ -7,9 +7,9 @@ import ChatFooter from './ChatFooter';
 import GameArea from './GameArea';
 import VotingArea from './VotingArea';
 import WaitingArea from './WaitingArea';
-//import WinningVoteArea from './WinningVoteArea';
+import WinningVoteArea from './WinningVoteArea';
 
-const GamePage = ({ socket, status = 0 }) => {
+const GamePage = ({ socket, status = 5 }) => {
     const navigate = useNavigate();
     
     const playerList = [
@@ -38,8 +38,8 @@ const GamePage = ({ socket, status = 0 }) => {
                 return <WaitingArea/>;
             case 4:
                 return <VotingArea prompts={answers} />;
-                /*case 5:
-                return <WinningVoteArea/>;*/
+                case 5:
+                return <WinningVoteArea winningPrompt={answers[0]} winnerName={playerList[0].name}/>;
             default:
                 return <GameArea status={status} />;
         }
@@ -59,7 +59,8 @@ const GamePage = ({ socket, status = 0 }) => {
                 sx={{
                     bgcolor: '#F35B66',
                     minHeight: '8vh',
-                    minWidth: '100%',
+                    maxHeight: '8vh',
+                    minWidth: '100vw',
                     border: 2,
                     borderColor: '#56A8F1',
                     display: 'flex',
@@ -96,6 +97,7 @@ const GamePage = ({ socket, status = 0 }) => {
                     display: "flex",
                     flexDirection: "row",
                     minHeight: '92vh',
+                    maxHeight: '92vh',
                     minWidth: '100vw',
                     maxWidth: '100vw',
                 }}>
@@ -103,6 +105,7 @@ const GamePage = ({ socket, status = 0 }) => {
                     sx={{
                         bgcolor: '#56A8F1',
                         minHeight: '92vh',
+                        maxHeight: '92vh',
                         minWidth: '10vw',
                         borderRadius: '15px',
                     }}
@@ -126,8 +129,9 @@ const GamePage = ({ socket, status = 0 }) => {
                     sx={{
                         bgcolor: '#F35B66',
                         minHeight: '92vh',
+                        maxHeight: '92vh',
                         minWidth: '60vw',
-                        maxWidth: '60%',
+                        maxWidth: '60vw',
                         flexGrow: 1,
                         justifyConent: "center",
                         alignItems: "center",
@@ -141,8 +145,9 @@ const GamePage = ({ socket, status = 0 }) => {
                         display: "flex",
                         flexDirection: "column",
                         minHeight: '92vh',
-                        minWidth: "15%",
-                        maxWidth: '20%',
+                        maxHeight: '92vh',
+                        minWidth: "15vw",
+                        maxWidth: '15vw',
                         bgcolor: '#004D17',
                         justifyContent: "space-between",
                     }}

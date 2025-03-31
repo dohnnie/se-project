@@ -39,7 +39,7 @@ const WaitingArea = () => {
                     color: 'white',
                 }}
             >
-                Start
+                Start Now
             </Button>
         </Box>
     );
