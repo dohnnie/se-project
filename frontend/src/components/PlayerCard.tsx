@@ -16,13 +16,11 @@ const PlayerCard = ({ player }) => {
             alignItems: 'center',
             justifyContent: 'space-between',
             maxWidth: '20vw',
-            bgcolor: '#4D0036',
+            bgcolor: '#56A8F1',
             mb: '8px',
             padding: '8px',
             borderRadius: '10px',
-            maxHeight: '25vh',
             color: 'white',
-            boxShadow: 3,
         }}>
             <Box sx={{
                 display: 'flex',
@@ -72,7 +70,7 @@ const PlayerCard = ({ player }) => {
                     sx={{
                         flexGrow: 1,
                         fontWeight: 'bold',
-                        color: '#56A8F1',
+                        color: '#4D0036',
                     }}
                 >
                     {points}

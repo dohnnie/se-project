@@ -9,7 +9,7 @@ import VotingArea from './VotingArea';
 import WaitingArea from './WaitingArea';
 import WinningVoteArea from './WinningVoteArea';
 
-const GamePage = ({ socket, status = 3 }) => {
+const GamePage = ({ socket, status = 5 }) => {
     const navigate = useNavigate();
     const [players, setPlayers] = useState(() => []);
 
@@ -56,7 +56,7 @@ const GamePage = ({ socket, status = 3 }) => {
     return (
         <Box
             sx={{
-                bgcolor: '#56A8F1',
+                bgcolor: '#4D0036',
                 maxHeight: '100vh',
                 maxWidth: '100vw',
                 display: "flex",
@@ -76,7 +76,6 @@ const GamePage = ({ socket, status = 3 }) => {
             >
                 <Typography component='h1'
                     sx={{
-                        color: 'white',
                         fontSize: '70px',
                         padding: '5px',
                         ml: '15px',
@@ -119,7 +118,6 @@ const GamePage = ({ socket, status = 3 }) => {
                         flexGrow: 1,
                         justifyConent: "center",
                         alignItems: "center",
-                        borderRadius: '15px',
                     }}
                 >
                     {renderGameContent()}

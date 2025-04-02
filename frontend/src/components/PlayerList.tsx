@@ -6,9 +6,16 @@ const PlayerList = ({ players }) => {
     return (
         <Box
             sx={{
+                display: 'flex',
+                flexDirection: 'column',
                 maxWidth: '20vw',
                 minWidth: '20vw',
-                bgcolor: '#56A8F1',
+                maxHeight: '92vh',
+                height: '100%',
+                bgcolor: '#4D0036',
+                padding: '10px',
+                margin: '5px',
+                outline: '5px solid black',
             }}
         >
             <Typography

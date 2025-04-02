@@ -34,7 +34,6 @@ const VotingArea = ({ prompts }) => {
         }}>
             <Box sx={{
                 borderRadius: '10px',
-                bgcolor: 'gold',
                 height: '50vh',
                 maxWidth: '50%',
                 mr: 10,
@@ -43,6 +42,10 @@ const VotingArea = ({ prompts }) => {
                     alt="Image of a cat licking its cheek"
                     height='100%'
                     width='100%'
+                    style={{
+                        border: '5px solid #F35B66',
+                        borderRadius: '40px',
+                    }}
                 />
             </Box>
             <Box sx={{

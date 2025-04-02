@@ -34,6 +34,7 @@ const WinningVoteArea = ({ winningPrompt, winnerName }) => {
                     border: `5px solid #56A8F1`,
                     borderRadius: '15px',
                     bgcolor: '#004D17',
+                    py: '15px'
                 }}
             >
                 <img
@@ -41,7 +42,7 @@ const WinningVoteArea = ({ winningPrompt, winnerName }) => {
                     alt="Rounds Prompted Picture"
                     style={{ 
                         maxWidth: '80%', 
-                        borderRadius: '10px',
+                        borderRadius: '40px',
                     }}
                 />
                 <Typography 
