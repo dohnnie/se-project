@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Box, Button, Typography, Divider } from '@mui/material';
 import PlayerList from './PlayerList';
-import ChatBody from './ChatBody';
-import ChatFooter from './ChatFooter';
+import Chat from './Chat';
 import GameArea from './GameArea';
 import VotingArea from './VotingArea';
 import WaitingArea from './WaitingArea';
@@ -122,21 +121,7 @@ const GamePage = ({ socket, status = 5 }) => {
                 >
                     {renderGameContent()}
                 </Container>
-                <Box
-                    sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        minHeight: '92vh',
-                        maxHeight: '92vh',
-                        minWidth: "18vw",
-                        maxWidth: '20vw',
-                        bgcolor: '#004D17',
-                        justifyContent: "space-between",
-                    }}
-                >
-                    <ChatBody />
-                    <ChatFooter />
-                </Box>
+                <Chat />
             </Box>
         </Box>
     );
