@@ -9,7 +9,7 @@ import VotingArea from './VotingArea';
 import WaitingArea from './WaitingArea';
 import WinningVoteArea from './WinningVoteArea';
 
-const GamePage = ({ socket, status = 2 }) => {
+const GamePage = ({ socket, status = 3 }) => {
     const navigate = useNavigate();
     const [players, setPlayers] = useState(() => []);
 
@@ -21,7 +21,14 @@ const GamePage = ({ socket, status = 2 }) => {
         });
     }, [socket, players]);
 
-    const answers = [
+    const testPlayers = [
+        { name: 'John', points: 10 },
+        { name: 'Ryan', points: 25 },
+        { name: 'Jose', points: 4 },
+        { name: 'Tom', points: 100 },
+        { name: 'Mark', points: 44 },
+    ];
+    const testAnswers = [
         "cat",
         "dog",
         "animal",
@@ -38,9 +45,9 @@ const GamePage = ({ socket, status = 2 }) => {
             case 0:
                 return <WaitingArea />;
             case 4:
-                return <VotingArea prompts={answers} />;
+                return <VotingArea prompts={testAnswers} />;
             case 5:
-                return <WinningVoteArea winningPrompt={answers[0]} winnerName={playerList[0].name} />;
+                return <WinningVoteArea winningPrompt={testAnswers[0]} winnerName={testPlayers[0].name} />;
             default:
                 return <GameArea status={status} />;
         }
@@ -49,21 +56,18 @@ const GamePage = ({ socket, status = 2 }) => {
     return (
         <Box
             sx={{
-                bgcolor: '#4D0036',
+                bgcolor: '#56A8F1',
                 maxHeight: '100vh',
                 maxWidth: '100vw',
                 display: "flex",
                 flexDirection: "column",
-                m: '0px',
             }}>
             <Box
                 sx={{
                     bgcolor: '#F35B66',
                     minHeight: '8vh',
-                    maxHeight: '8vh',
+                    maxHeight: '10vh',
                     minWidth: '100vw',
-                    border: 2,
-                    borderColor: '#56A8F1',
                     display: 'flex',
                     flexDirection: 'row',
                     alignItems: "center",
@@ -74,7 +78,8 @@ const GamePage = ({ socket, status = 2 }) => {
                     sx={{
                         color: 'white',
                         fontSize: '70px',
-                        m: 1,
+                        padding: '5px',
+                        ml: '15px',
                     }}
                 >
                     Picprompt
@@ -84,8 +89,9 @@ const GamePage = ({ socket, status = 2 }) => {
                         size: 'small',
                         minHeight: '5vh',
                         display: 'flex',
-                        color: 'white',
-                        m: 1,
+                        bgcolor: '#004D17',
+                        '&:hover': { bgcolor: '#56A8F1', color: 'black' },
+                        mr: '15px',
                     }}
                     variant='contained'
                     onClick={handleLobby}
@@ -101,12 +107,11 @@ const GamePage = ({ socket, status = 2 }) => {
                     maxHeight: '92vh',
                     minWidth: '100vw',
                     maxWidth: '100vw',
-                    bgcolor: '#56A8F1',
                 }}>
-                <PlayerList players={players} />
+                <PlayerList players={testPlayers} />
                 <Container
                     sx={{
-                        bgcolor: '#F35B66',
+                        bgcolor: '#4D0036',
                         minHeight: '92vh',
                         maxHeight: '92vh',
                         minWidth: '60vw',
@@ -114,7 +119,7 @@ const GamePage = ({ socket, status = 2 }) => {
                         flexGrow: 1,
                         justifyConent: "center",
                         alignItems: "center",
-                        padding: '0 !important',
+                        borderRadius: '15px',
                     }}
                 >
                     {renderGameContent()}
@@ -125,8 +130,8 @@ const GamePage = ({ socket, status = 2 }) => {
                         flexDirection: "column",
                         minHeight: '92vh',
                         maxHeight: '92vh',
-                        minWidth: "15vw",
-                        maxWidth: '15vw',
+                        minWidth: "18vw",
+                        maxWidth: '20vw',
                         bgcolor: '#004D17',
                         justifyContent: "space-between",
                     }}

@@ -6,9 +6,9 @@ const PlayerList = ({ players }) => {
     return (
         <Box
             sx={{
-                bgcolor: 'white',
-                minWidth: '10vw',
-                borderRadius: '15px',
+                maxWidth: '20vw',
+                minWidth: '20vw',
+                bgcolor: '#56A8F1',
             }}
         >
             <Typography
@@ -16,13 +16,12 @@ const PlayerList = ({ players }) => {
                 sx={{
                     fontSize: '70px',
                     display: 'flex',
-                    alignContent: 'center',
                     justifyContent: 'center',
+                    color: 'white',
                 }}
             >
                 Players
             </Typography>
-            <Divider />
             {players.map(player => <PlayerCard player={player} />)}
         </Box>
     );

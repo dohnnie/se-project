@@ -11,32 +11,43 @@ const PlayerCard = ({ player }) => {
 
     return (
         <Box sx={{
+            margin: '2px',
             display: 'flex',
-            flexDirection: 'row',
-            bgcolor: 'white',
-            my: '5px',
-            p: '5px',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            maxWidth: '20vw',
+            bgcolor: '#4D0036',
+            mb: '8px',
+            padding: '8px',
+            borderRadius: '10px',
             maxHeight: '25vh',
-            maxWidth: '25vw',
-            minWidth: '25vw',
+            color: 'white',
+            boxShadow: 3,
         }}>
             <Box sx={{
-                float: 'left',
                 display: 'flex',
-                width: '45%',
+                alignItems: 'center',
+                gap: '10px',
             }}>
-                <PersonIcon sx={{
-                    fontSize: '35px',
-                    my: '20px',
-                    mx: '5px',
-                }} />
-                <Typography component='h1'
+                <Box 
+                    sx={{ 
+                        width: 50,
+                        height: 50,
+                        bgcolor: '#004D17',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}
+                >
+                    <PersonIcon sx={{
+                        fontSize: '35px',
+                    }} />
+                </Box>
+                <Typography variant='h3'
                     sx={{
-                        my: '10px',
-                        ml: '5px',
-                        width: '14%',
-                        pl: '10px',
-                        fontSize: '40px',
+                        flexGrow: 1,
+                        fontWeight: 'bold',
                     }}
                 >
                     {name}
@@ -44,28 +55,24 @@ const PlayerCard = ({ player }) => {
             </Box>
             <Box
                 sx={{
-                    width: '50%',
-                    float: 'right',
                     display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'end',
-                    alignItems: 'end',
+                    alignItems: 'center',
+                    gap: '10px',
                 }}
             >
                 <BorderColorIcon sx={{
-                    fontSize: '35px',
-                    my: '20px',
-                    mx: '5px',
+                    fontSize: '2rem',
+                    color: '#F35B66',
                 }} />
                 <StarIcon sx={{
-                    fontSize: '35px',
-                    my: '20px',
-                    mx: '5px',
+                    fontSize: '2.5rem',
+                    color: '#F35B66',
                 }} />
-                <Typography component='h1'
+                <Typography variant='h4'
                     sx={{
-                        fontSize: '37px',
-                        my: '10px',
+                        flexGrow: 1,
+                        fontWeight: 'bold',
+                        color: '#56A8F1',
                     }}
                 >
                     {points}

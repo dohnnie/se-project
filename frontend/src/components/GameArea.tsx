@@ -14,71 +14,67 @@ import { useState } from 'react';
 const GameArea = ({ status = 2 }) => {
     const [answer, setAnswer] = useState(() => '');
 
+    const testTime = 30;
+    const testPlayer = 'John';
+
     return (
         <Box sx={{
             display: 'flex',
             flexDirection: 'column',
-            maxWidth: "60vw"
+            alignItems: 'center',
+            padding: '30px',
+            maxWidth: "60vw",
+            maxHeight: '92vh',
+            gap: '20px'
         }}>
-            {(status === 0) ? (
-                <Typography sx={{ fontSize: '75px' }}>Waiting for Players</Typography>
-            ) : (
-                <Container sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    bgcolor: 'grey',
-                    my: '50px'
-                }}>
-                    <Box sx={{
-                        bgcolor: 'white',
-                        borderRadius: '20px',
-                        mr: 'auto',
-                        p: '10px',
-                        display: 'flex',
-                        flexDirection: 'row'
-                    }}>
-                        {
-                            /*Prompting*/
-                            (status === 2) && (
-                                <>
-                                    <Typography sx={{ fontSize: '75px', mx: '5px' }}>John is prompting</Typography>
-                                    <Typography sx={{ fontSize: '75px', mx: '10px' }}>40s remaining</Typography>
-                                </>
-                            )
-                        }
-
-                        {
-                            /*Guessing*/
-                            (status === 3) && (
-                                <>
-                                    <Typography sx={{ fontSize: '75px' }}>Players are guessing</Typography>
-                                    <Typography sx={{ fontSize: '75px', mx: '10px' }}>20s remaining</Typography>
-                                </>
-                            )
-                        }
-                    </Box >
-                </Container>
-            )}
             <Box sx={{
-                my: '10px',
-                borderRadius: '10px',
-                bgcolor: 'gold',
-                minHeight: '50vh',
-                maxHeight: '50vh',
-                minWidth: '100%',
+                display: 'flex',
+                borderRadius: '20px',
+                bgcolor: '#56A8F1',
+                width: '95%',
+                p: '10px',
             }}>
-                <img
-                    src="../../public/cat.webp"
-                    alt="Image of a cat licking it's cheek"
-                    height='100%'
-                    width='100%'
-                />
+                    {
+                        /*Prompting*/
+                        (status === 2) && (
+                            <>
+                                <Typography sx={{ fontSize: '75px', mx: '5px' }}>{testPlayer} is prompting</Typography>
+                                <Typography sx={{ fontSize: '75px', mx: '10px' }}>{testTime}s remaining</Typography>
+                            </>
+                        )
+                    }
+
+                    {
+                        /*Guessing*/
+                        (status === 3) && (
+                            <>
+                                <Typography sx={{ fontSize: '75px' }}>Players are guessing</Typography>
+                                <Typography sx={{ fontSize: '75px', mx: '10px' }}>{testTime}s remaining</Typography>
+                            </>
+                        )
+                    }
             </Box>
+            {(status === 3) && (
+                <Box sx={{
+                    display: 'flex',
+                    my: '10px',
+                    maxHeight: '50vh',
+                    maxWidth: '50%',
+                }}>
+                    <img
+                        src="/cat.webp"
+                        alt="Image of a cat licking it's cheek"
+                        height='100%'
+                        width='100%'
+                        style={{
+                            border: '5px solid #F35B66',
+                            borderRadius: '40px',
+                        }}
+                    />
+                </Box>
+            )}
             <Box
                 component='form'
-                sx={{
-                    my: '20px'
-                }}
             >
                 <FormControl sx={{
                     bgcolor: 'peru',
@@ -88,12 +84,12 @@ const GameArea = ({ status = 2 }) => {
                     <Input
                         type='text'
                         placeholder='Write Answer'
+                        
                         value={answer}
                         onChange={(e) => setAnswer(e.target.value)}
                         sx={{
                             width: '80%',
                             height: '5vh',
-                            mr: '100px'
                         }}
                     />
                     <Button
@@ -101,6 +97,9 @@ const GameArea = ({ status = 2 }) => {
                         sx={{
                             width: '10%',
                             height: '5vh',
+                            bgcolor: '#004D17',
+                            '&:hover': { bgcolor: '#56A8F1', color: 'black' },
+                            color: 'white',
                         }}>
                         SEND
                     </Button>

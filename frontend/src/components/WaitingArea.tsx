@@ -35,7 +35,7 @@ const WaitingArea = () => {
                 variant="contained"
                 sx={{
                     bgcolor: '#004D17',
-                    '&:hover': { bgcolor: '#56A8F1' },
+                    '&:hover': { bgcolor: '#56A8F1', color: 'black' },
                     color: 'white',
                 }}
             >

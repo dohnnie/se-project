@@ -26,11 +26,16 @@ const LobbyPage = ({ socket }) => {
 
 
     return (
-        <Container sx={{
+        <Box sx={{
+            justifySelf: 'center',
             alignItems: 'center',
             justifyContent: 'center',
             display: 'flex',
             flexDirection: 'column',
+            bgcolor: '#4D0036',
+            color: 'white',
+            minHeight: '100vh',
+            minWidth: '100vw',
         }}>
             <Typography component='h1'
                 sx={{
@@ -52,6 +57,7 @@ const LobbyPage = ({ socket }) => {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         sx={{
+                            color: '#56A8F1',
                             minHeight: '5vh',
                             minWidth: '20%',
                             fontSize: '30px',
@@ -67,6 +73,7 @@ const LobbyPage = ({ socket }) => {
                         value={lobbyId}
                         onChange={(e) => setLobbyId(e.target.value)}
                         sx={{
+                            color: '#56A8F1',
                             minHeight: '5vh',
                             minWidth: '20%',
                             fontSize: '30px'
@@ -84,6 +91,8 @@ const LobbyPage = ({ socket }) => {
                     height: '5vh',
                     mb: '10px',
                     minWidth: '100%',
+                    bgcolor: '#004D17',
+                    '&:hover': { bgcolor: '#56A8F1' },
                 }}
                     variant='contained'
                     onClick={handleCreateLobby}
@@ -94,6 +103,8 @@ const LobbyPage = ({ socket }) => {
                     sx={{
                         height: '5vh',
                         minWidth: '100%',
+                        bgcolor: '#004D17',
+                        '&:hover': { bgcolor: '#56A8F1' },
                     }}
                     variant='contained'
                     onClick={handleJoinLobby}
@@ -101,7 +112,7 @@ const LobbyPage = ({ socket }) => {
                     Join Lobby
                 </Button>
             </Box>
-        </Container>
+        </Box>
     );
 }
 
