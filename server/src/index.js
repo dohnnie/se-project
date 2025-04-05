@@ -32,12 +32,34 @@ let players = [];
 
 io.on('connection', socket => {
   console.log(`${socket.id} has joined the server!`);
+
   socket.on('create', (player) => {
     console.log(`${player.name} has joined a lobby`);
     players.push(player);
     console.log('Players: ', players);
     io.emit('updateList', players);
   });
+
+  socket.on('start', (message) => {
+    console.log(message);
+    players.map((player, index) => {
+      if (index !== 0)
+        player.prompter = false;
+      else
+        player.prompter = true;
+    });
+
+    const prompter = players[0].id;
+
+    io.emit('gameStart',
+      {
+        statusCode: 2,
+        time: 40,
+        prompter: prompter,
+      });
+  });
+
+
   socket.on('disconnect', () => {
     console.log('A user has disconnected');
     players = players.filter(player => player.id !== socket.id);
