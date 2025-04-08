@@ -8,17 +8,10 @@ import VotingArea from './VotingArea';
 import WaitingArea from './WaitingArea';
 import WinningVoteArea from './WinningVoteArea';
 
-const GamePage = ({ socket, status = 5 }) => {
+const GamePage = ({ socket, status = 5, playerList }) => {
   const navigate = useNavigate();
   const [players, setPlayers] = useState(() => []);
 
-  useEffect(() => {
-    socket.on('updateList', pList => {
-      console.log(pList);
-      const newList = pList;
-      setPlayers(() => newList);
-    });
-  }, [socket, players]);
 
   const testPlayers = [
     { name: 'John', points: 10 },
@@ -82,6 +75,7 @@ const GamePage = ({ socket, status = 5 }) => {
         >
           Picprompt
         </Typography>
+        <Typography>Player Count: {playerList.length}</Typography>
         <Button
           sx={{
             size: 'small',
@@ -106,7 +100,7 @@ const GamePage = ({ socket, status = 5 }) => {
           minWidth: '100vw',
           maxWidth: '100vw',
         }}>
-        <PlayerList players={testPlayers} />
+        <PlayerList players={playerList} />
         <Container
           sx={{
             bgcolor: '#4D0036',
@@ -121,7 +115,7 @@ const GamePage = ({ socket, status = 5 }) => {
         >
           {renderGameContent()}
         </Container>
-        <Chat />
+        <Chat socket={socket} />
       </Box>
     </Box>
   );
