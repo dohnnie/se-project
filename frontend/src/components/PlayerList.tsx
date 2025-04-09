@@ -29,7 +29,7 @@ const PlayerList = ({ players }) => {
       >
         Players
       </Typography>
-      {players.map(player => <PlayerCard player={player} />)}
+      {players.map(player => <PlayerCard key={player.id} player={player} />)}
     </Box>
   );
 };

@@ -43,9 +43,7 @@ io.on('connection', socket => {
 
     socket.on('create', (player) => {
       console.log(`${player.name} has joined a lobby`);
-      console.log('Pre-Update List: ', players);
       players.push(player);
-      console.log('Post-Update List: ', players);
       io.emit('updateList', [...players]);
       socket.on('requestList', () => io.emit([...players]));
     });
@@ -53,7 +51,7 @@ io.on('connection', socket => {
 
     socket.on('message', (data) => {
       console.log(data);
-      io.emit('messageResponse', data);
+      io.emit('newMessage', data);
     })
 
     socket.on('start', (message) => {
@@ -77,7 +75,7 @@ io.on('connection', socket => {
 
 
     socket.on('disconnect', () => {
-      console.log('A user has disconnected');
+      console.log(`A ${socket.id} has disconnected`);
       players = players.filter(player => player.id !== socket.id);
       io.emit('updateList', players);
       socket.disconnect();

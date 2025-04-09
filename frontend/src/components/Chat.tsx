@@ -3,16 +3,7 @@ import { Box, Typography, Divider } from '@mui/material';
 import ChatBody from './ChatBody';
 import ChatFooter from './ChatFooter';
 
-const Chat = ({ socket }) => {
-  const [messages, setMessages] = useState(() => []);
-
-  useEffect(() => {
-    socket.on('messageResponse', (data) => {
-      console.log(data);
-      setMessages([...messages, data])
-      console.log(messages);
-    });
-  }, [socket, messages]);
+const Chat = ({ socket, messages }) => {
 
   return (
     <Box

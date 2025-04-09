@@ -8,7 +8,7 @@ import VotingArea from './VotingArea';
 import WaitingArea from './WaitingArea';
 import WinningVoteArea from './WinningVoteArea';
 
-const GamePage = ({ socket, status = 5, playerList }) => {
+const GamePage = ({ socket, status = 5, playerList, messages }) => {
   const navigate = useNavigate();
   const [players, setPlayers] = useState(() => []);
 
@@ -115,7 +115,7 @@ const GamePage = ({ socket, status = 5, playerList }) => {
         >
           {renderGameContent()}
         </Container>
-        <Chat socket={socket} />
+        <Chat socket={socket} messages={messages} />
       </Box>
     </Box>
   );

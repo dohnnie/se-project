@@ -11,7 +11,8 @@ const LobbyPage = ({ isConnected, socket }) => {
   const handleCreateLobby = (e) => {
     e.preventDefault();
     console.log('Create button clicked!');
-    localStorage.setItem('name', name);
+    sessionStorage.setItem('name', name);
+    sessionStorage.setItem('playerId', socket.id);
     socket.emit('create', { name: name, id: socket.id });
     navigate('/game');
   };
