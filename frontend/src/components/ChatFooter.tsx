@@ -1,6 +1,6 @@
 import { useState } from 'react';
+import { Box, Input, Button, Divider } from '@mui/material';
 
-import { Box, FormControl, Input, Button, TextField } from '@mui/material';
 const ChatFooter = ({ socket }) => {
   const [message, setMessage] = useState(() => '');
 
@@ -22,12 +22,14 @@ const ChatFooter = ({ socket }) => {
     <Box
       sx={{
         p: '10px',
-        bgcolor: '#f9f5eb',
+        bgcolor: 'white',
         height: '10vh',
         maxWidth: "20vw",
         display: 'flex',
         flexDirection: 'row',
+        borderRadius: '10px',
       }}>
+      <Divider />
       <Box
         sx={{
           maxWidth: '100%',
@@ -40,11 +42,13 @@ const ChatFooter = ({ socket }) => {
           sx={{
             minWidth: '60%',
             maxWidth: '60%',
+            mr: '8px',
           }}
         >
         </Input>
         <Button
           onClick={handleSendMessage}
+          variant='contained'
         >
           Send
         </Button>

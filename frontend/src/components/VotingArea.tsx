@@ -1,67 +1,81 @@
 import { Box, Typography, Container, Button } from '@mui/material';
 
 const Prompts = ({ prompt }) => {
-    return (
-        <Box sx={{
-            borderRadius: '10px',
-            bgcolor: 'white',
-            justifyContent: 'center',
-            alignItems: 'center',
-            display: 'flex',
-            my: '25px',
-            minHeight: '10vh',
-            minWidth: '50%',
-        }}>
-            <Button sx={{
-                fontSize: '30px',
-                p: '5px',
-                color: 'black',
-            }}>
-                {prompt}
-            </Button>
-        </Box>
-    );
+  return (
+    <Button
+      variant='contained'
+      sx={{
+        borderRadius: '10px',
+        minHeight: '20%',
+        minWidth: '100%',
+        maxHeight: '25%',
+        maxWidth: '100%',
+        fontSize: '25px',
+        p: '5px',
+        color: 'black',
+        bgcolor: 'white',
+        my: '15px',
+      }}>
+      {prompt}
+    </Button>
+  );
 }
 
 const VotingArea = ({ prompts }) => {
-    return (
+  return (
+    <>
+      <Typography
+        sx={{
+          bgcolor: 'white',
+          justifyContent: 'center',
+          alignContent: 'center',
+          display: 'flex',
+          fontSize: '70px',
+          borderRadius: '10px',
+          m: '20px',
+        }}
+      >
+        Vote for the best prompt!
+      </Typography>
+      <Box sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: "center",
+        maxWidth: "60vw",
+        mt: '50px',
+        mb: '100px'
+      }}>
         <Box sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: "center",
-            maxWidth: "60vw",
-            my: '100px'
+          borderRadius: '10px',
+          height: '50vh',
+          maxWidth: '50%',
+          mr: 10,
         }}>
-            <Box sx={{
-                borderRadius: '10px',
-                height: '50vh',
-                maxWidth: '50%',
-                mr: 10,
-            }}>
-                <img src="/cat.webp"
-                    alt="Image of a cat licking its cheek"
-                    height='100%'
-                    width='100%'
-                    style={{
-                        border: '5px solid #F35B66',
-                        borderRadius: '40px',
-                    }}
-                />
-            </Box>
-            <Box sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                maxWidth: '60%',
-                minHeight: '50vh',
-            }}>
-                <Container>
-                    {
-                        prompts.map(currentPrompt => <Prompts prompt={currentPrompt} />)
-                    }
-                </Container>
-            </Box>
+          <img src="/cat.webp"
+            alt="Image of a cat licking its cheek"
+            height='100%'
+            width='100%'
+            style={{
+              border: '5px solid #F35B66',
+              borderRadius: '40px',
+            }}
+          />
         </Box>
-    );
+        <Box sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          maxWidth: '60%',
+          minHeight: '50vh',
+        }}>
+          <Container>
+            {
+              prompts.map(currentPrompt => <Prompts prompt={currentPrompt} />)
+            }
+          </Container>
+        </Box>
+      </Box>
+    </>
+  );
 }
 
 export default VotingArea;

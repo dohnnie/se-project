@@ -73,6 +73,10 @@ io.on('connection', socket => {
         });
     });
 
+    socket.on('submitPrompt', (promptData) => {
+      console.log(promptData);
+    });
+
 
     socket.on('disconnect', () => {
       console.log(`A ${socket.id} has disconnected`);

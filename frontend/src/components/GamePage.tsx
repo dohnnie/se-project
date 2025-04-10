@@ -8,7 +8,7 @@ import VotingArea from './VotingArea';
 import WaitingArea from './WaitingArea';
 import WinningVoteArea from './WinningVoteArea';
 
-const GamePage = ({ socket, status = 5, playerList, messages }) => {
+const GamePage = ({ socket, status = 4, playerList, messages }) => {
   const navigate = useNavigate();
   const [players, setPlayers] = useState(() => []);
 
@@ -41,7 +41,7 @@ const GamePage = ({ socket, status = 5, playerList, messages }) => {
       case 5:
         return <WinningVoteArea winningPrompt={testAnswers[0]} winnerName={testPlayers[0].name} />;
       default:
-        return <GameArea status={status} />;
+        return <GameArea socket={socket} status={status} />;
     }
   }
 
@@ -88,7 +88,7 @@ const GamePage = ({ socket, status = 5, playerList, messages }) => {
           variant='contained'
           onClick={handleLobby}
         >
-          Lobbies
+          Leave Game
         </Button>
       </Box>
       <Box
