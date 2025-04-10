@@ -17,13 +17,14 @@ const PlayerList = ({ players }) => {
         margin: '5px',
         mt: '12vh',
         borderRadius: '15px',
-        boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.5)'
+        boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.5)',
+        gap: '12px',
       }}
     >
       <Typography
-        component='h1'
+        variant='h2'
         sx={{
-          fontSize: '70px',
+          fontWeight: 'bold',
           display: 'flex',
           justifyContent: 'center',
           color: 'white',
@@ -31,6 +32,12 @@ const PlayerList = ({ players }) => {
       >
         Players
       </Typography>
+      <Divider
+      sx={{
+        borderWidth: '5px',
+        borderColor: '#4D0036',
+      }}
+      ></Divider>
       {players.map(player => <PlayerCard player={player} />)}
     </Box>
   );

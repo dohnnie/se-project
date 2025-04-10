@@ -26,8 +26,6 @@ const PlayerCard = ({ player }) => {
       justifyContent: 'space-between',
       maxWidth: '20vw',
       bgcolor: '#56A8F1',
-      mb: '8px',
-      padding: '8px',
       borderRadius: '10px',
       color: 'white',
     }}>
@@ -57,7 +55,6 @@ const PlayerCard = ({ player }) => {
             ref={nameRef}
             sx={{
               flexGrow: 1,
-              fontWeight: 'bold',
               maxWidth: '8ch',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
