@@ -56,6 +56,7 @@ const LobbyPage = ({ socket }) => {
             placeholder='Enter your name'
             value={name}
             onChange={(e) => setName(e.target.value)}
+            
             sx={{
               color: '#56A8F1',
               bgcolor: 'white',
@@ -63,6 +64,7 @@ const LobbyPage = ({ socket }) => {
               minWidth: '20%',
               fontSize: '30px',
               mb: '10px',
+              pl: '5px',
             }}
           />
         </FormControl>
@@ -78,7 +80,8 @@ const LobbyPage = ({ socket }) => {
               bgcolor: 'white',
               minHeight: '5vh',
               minWidth: '20%',
-              fontSize: '30px'
+              fontSize: '30px',
+              pl: '5px',
             }}
           />
         </FormControl>

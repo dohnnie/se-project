@@ -8,7 +8,8 @@ const WinningVoteArea = ({ winningPrompt, winnerName }) => {
     <Box
       sx={{
         bgcolor: '#4D0036',
-        height: '92vh',
+        maxheight: '92vh',
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -31,10 +32,10 @@ const WinningVoteArea = ({ winningPrompt, winnerName }) => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          border: `5px solid #56A8F1`,
           borderRadius: '15px',
           bgcolor: '#004D17',
-          py: '15px'
+          py: '15px',
+          height: 'auto',
         }}
       >
         <img
@@ -43,6 +44,7 @@ const WinningVoteArea = ({ winningPrompt, winnerName }) => {
           style={{
             maxWidth: '80%',
             borderRadius: '40px',
+            border: '5px solid gold',
           }}
         />
         <Typography

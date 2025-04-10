@@ -21,11 +21,11 @@ const GamePage = ({ socket, status = 5 }) => {
   }, [socket, players]);
 
   const testPlayers = [
-    { name: 'John', points: 10 },
-    { name: 'Ryan', points: 25 },
-    { name: 'Jose', points: 4 },
-    { name: 'Tom', points: 100 },
-    { name: 'Mark', points: 44 },
+    { name: 'Johnathan', points: 10 },
+    { name: 'Jesus', points: 25 },
+    { name: 'Tom', points: 4 },
+    { name: 'Gabriella', points: 100 },
+    { name: 'Ryan', points: 44 },
   ];
   const testAnswers = [
     "cat",

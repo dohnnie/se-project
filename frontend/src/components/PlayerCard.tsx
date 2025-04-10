@@ -1,13 +1,22 @@
 import PersonIcon from '@mui/icons-material/Person';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import StarIcon from '@mui/icons-material/Star';
-import { Box, Typography } from '@mui/material';
-import { useState } from 'react';
+import { Box, Typography, Tooltip } from '@mui/material';
+import { useState, useRef, useEffect, useState as useReactState } from 'react';
 
 const PlayerCard = ({ player }) => {
   const [points, setPoints] = useState(() => 0);
 
   const name = player.name;
+  
+  const [isOverflowing, setIsOverflowing] = useReactState(false);
+  const nameRef = useRef(null);
+
+  useEffect(() => {
+    if(nameRef.current){
+      setIsOverflowing(nameRef.current.scrollWidth > nameRef.current.clientWidth);
+    }
+  }, [player.name]);
 
   return (
     <Box sx={{
@@ -42,14 +51,22 @@ const PlayerCard = ({ player }) => {
             fontSize: '35px',
           }} />
         </Box>
-        <Typography variant='h3'
-          sx={{
-            flexGrow: 1,
-            fontWeight: 'bold',
-          }}
-        >
-          {name}
-        </Typography>
+        <Tooltip title={player.name} disableHoverListener={!isOverflowing}>
+          <Typography 
+            variant='h3'
+            ref={nameRef}
+            sx={{
+              flexGrow: 1,
+              fontWeight: 'bold',
+              maxWidth: '8ch',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+          >
+            {player.name}
+          </Typography>
+        </Tooltip>
       </Box>
       <Box
         sx={{
