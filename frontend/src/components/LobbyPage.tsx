@@ -2,16 +2,17 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Container, Box, FormControl, Input, Button, Typography } from '@mui/material';
 
-const LobbyPage = ({ socket }) => {
+const LobbyPage = ({ isConnected, socket }) => {
   const navigate = useNavigate();
   const [name, setName] = useState(() => '')
-  const [lobbyId, setLobbyId] = useState(() => '')
+  const [lobbyId, setLobbyId] = useState('');
 
 
   const handleCreateLobby = (e) => {
     e.preventDefault();
     console.log('Create button clicked!');
-    console.log(`Name: ${name}`);
+    sessionStorage.setItem('name', name);
+    sessionStorage.setItem('playerId', socket.id);
     socket.emit('create', { name: name, id: socket.id });
     navigate('/game');
   };
@@ -20,7 +21,6 @@ const LobbyPage = ({ socket }) => {
     e.preventDefault();
     console.log('Join button clicked!');
     console.log(`Name: ${name}`);
-    console.log(`Join Code: ${lobbyId}`);
     navigate('/game');
   };
 

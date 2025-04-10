@@ -8,17 +8,10 @@ import VotingArea from './VotingArea';
 import WaitingArea from './WaitingArea';
 import WinningVoteArea from './WinningVoteArea';
 
-const GamePage = ({ socket, status = 5 }) => {
+const GamePage = ({ socket, status = 4, playerList, messages }) => {
   const navigate = useNavigate();
   const [players, setPlayers] = useState(() => []);
 
-  useEffect(() => {
-    socket.on('updateList', pList => {
-      console.log(pList);
-      const newList = pList;
-      setPlayers(() => newList);
-    });
-  }, [socket, players]);
 
   const testPlayers = [
     { name: 'Johnathan', points: 10 },
@@ -48,7 +41,7 @@ const GamePage = ({ socket, status = 5 }) => {
       case 5:
         return <WinningVoteArea winningPrompt={testAnswers[0]} winnerName={testPlayers[0].name} />;
       default:
-        return <GameArea status={status} />;
+        return <GameArea socket={socket} status={status} />;
     }
   }
 
@@ -82,6 +75,7 @@ const GamePage = ({ socket, status = 5 }) => {
         >
           Picprompt
         </Typography>
+        <Typography>Player Count: {playerList.length}</Typography>
         <Button
           sx={{
             size: 'small',
@@ -94,7 +88,7 @@ const GamePage = ({ socket, status = 5 }) => {
           variant='contained'
           onClick={handleLobby}
         >
-          Lobbies
+          Leave Game
         </Button>
       </Box>
       <Box
@@ -106,7 +100,7 @@ const GamePage = ({ socket, status = 5 }) => {
           minWidth: '100vw',
           maxWidth: '100vw',
         }}>
-        <PlayerList players={testPlayers} />
+        <PlayerList players={playerList} />
         <Container
           sx={{
             bgcolor: '#4D0036',
@@ -121,7 +115,7 @@ const GamePage = ({ socket, status = 5 }) => {
         >
           {renderGameContent()}
         </Container>
-        <Chat />
+        <Chat socket={socket} messages={messages} />
       </Box>
     </Box>
   );

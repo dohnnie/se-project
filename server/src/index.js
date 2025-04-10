@@ -23,6 +23,10 @@ app.use(express.static('public'));
 
 const { Server } = require('socket.io');
 const io = new Server(expressServer, () => {
+  connectionStateRecovery: {
+    maxDisconnectionDuration: 2 * 60 * 1000;
+    skipMiddlewares: true;
+  }
   cors: [
     `http://localhost:${PORT}`,
   ]
@@ -33,39 +37,54 @@ let players = [];
 io.on('connection', socket => {
   console.log(`${socket.id} has joined the server!`);
 
-  socket.on('create', (player) => {
-    console.log(`${player.name} has joined a lobby`);
-    players.push(player);
-    console.log('Players: ', players);
-    io.emit('updateList', players);
-  });
+  if (socket.recovered) {
+    console.log(`${socket.id} has rejoined`);
+  } else {
 
-  socket.on('start', (message) => {
-    console.log(message);
-    players.map((player, index) => {
-      if (index !== 0)
-        player.prompter = false;
-      else
-        player.prompter = true;
+    socket.on('create', (player) => {
+      console.log(`${player.name} has joined a lobby`);
+      players.push(player);
+      io.emit('updateList', [...players]);
+      socket.on('requestList', () => io.emit([...players]));
     });
 
-    const prompter = players[0].id;
 
-    io.emit('gameStart',
-      {
-        statusCode: 2,
-        time: 40,
-        prompter: prompter,
+    socket.on('message', (data) => {
+      console.log(data);
+      io.emit('newMessage', data);
+    })
+
+    socket.on('start', (message) => {
+      console.log(message);
+      players.map((player, index) => {
+        if (index !== 0)
+          player.prompter = false;
+        else
+          player.prompter = true;
       });
-  });
+
+      const prompter = players[0].id;
+
+      io.emit('gameStart',
+        {
+          statusCode: 2,
+          time: 40,
+          prompter: prompter,
+        });
+    });
+
+    socket.on('submitPrompt', (promptData) => {
+      console.log(promptData);
+    });
 
 
-  socket.on('disconnect', () => {
-    console.log('A user has disconnected');
-    players = players.filter(player => player.id !== socket.id);
-    io.emit('updateList', players);
-    socket.disconnect();
-  });
+    socket.on('disconnect', () => {
+      console.log(`A ${socket.id} has disconnected`);
+      players = players.filter(player => player.id !== socket.id);
+      io.emit('updateList', players);
+      socket.disconnect();
+    });
+  }
 });
 
 app.get('/api', (req, res) => {

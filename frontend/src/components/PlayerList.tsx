@@ -38,7 +38,7 @@ const PlayerList = ({ players }) => {
         borderColor: '#4D0036',
       }}
       ></Divider>
-      {players.map(player => <PlayerCard player={player} />)}
+      {players.map(player => <PlayerCard key={player.id} player={player} />)}
     </Box>
   );
 };

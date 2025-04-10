@@ -1,64 +1,60 @@
 import { useState } from 'react';
-import { Box, FormControl, Input, Button } from '@mui/material';
+import { Box, Input, Button, Divider } from '@mui/material';
 
-const ChatFooter = () => {
-    const [message, setMessage] = useState(() => '');
+const ChatFooter = ({ socket }) => {
+  const [message, setMessage] = useState(() => '');
 
-    const handleSendMessage = (e) => {
-        e.preventDefault();
-        setMessage('');
-    };
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    console.log('Button clicked!');
+    if (message.trim() && sessionStorage.getItem('name')) {
+      socket.emit('message', {
+        text: message,
+        name: sessionStorage.getItem('name'),
+        id: `${socket.id}${Math.random()}`,
+        socketID: socket.id,
+      });
+    }
+    setMessage('');
+  };
 
-    return (
-        <Box
-            sx={{
-                p: '10px',
-                bgcolor: '#f9f5eb',
-                height: '10vh',
-                maxWidth: "20vw",
-            }}>
-            <Box component='form'>
-                <FormControl
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        width: '100%',
-                        height: '100%',
-                        alignItems: 'center',
-                        justifyContent: 'space-between'
-                    }}>
-                    <Input
-                        type='text'
-                        placeholder='Write Message'
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        sx={{
-                            width: '80%',
-                            borderRadius: '10px',
-                            border: '1px solid #ddd',
-                            outline: 'none',
-                            p: '15px',
-                            margin: "5px",
-                        }}
-                    />
-                    <Button
-                        sx={{
-                            width: '20%',
-                            bgcolor: 'green',
-                            p: '10px',
-                            border: 'none',
-                            outline: 'none',
-                            color: '#eae3d2',
-                            cursor: 'pointer',
-                            "&:hover": { bgcolor: '#81c981' }
-                        }}>
-
-                        SEND
-                    </Button>
-                </FormControl>
-            </Box>
-        </Box>
-    );
+  return (
+    <Box
+      sx={{
+        p: '10px',
+        bgcolor: 'white',
+        height: '10vh',
+        maxWidth: "20vw",
+        display: 'flex',
+        flexDirection: 'row',
+        borderRadius: '10px',
+      }}>
+      <Divider />
+      <Box
+        sx={{
+          maxWidth: '100%',
+        }}
+      >
+        <Input
+          placeholder='Write message '
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          sx={{
+            minWidth: '60%',
+            maxWidth: '60%',
+            mr: '8px',
+          }}
+        >
+        </Input>
+        <Button
+          onClick={handleSendMessage}
+          variant='contained'
+        >
+          Send
+        </Button>
+      </Box>
+    </Box>
+  );
 };
 
 export default ChatFooter;
