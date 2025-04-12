@@ -12,8 +12,9 @@ const Prompts = ({ prompt }) => {
         maxWidth: '100%',
         fontSize: '25px',
         p: '5px',
-        color: 'black',
-        bgcolor: 'white',
+        color: 'white',
+        fontWeight: 'bold',
+        bgcolor: '#F35B66',
         my: '15px',
       }}>
       {prompt}
@@ -26,7 +27,8 @@ const VotingArea = ({ prompts }) => {
     <>
       <Typography
         sx={{
-          bgcolor: 'white',
+          bgcolor: '#56A8F1',
+          color: 'black',
           justifyContent: 'center',
           alignContent: 'center',
           display: 'flex',
