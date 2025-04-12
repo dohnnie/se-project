@@ -9,7 +9,7 @@ import VotingArea from './VotingArea';
 import WaitingArea from './WaitingArea';
 import WinningVoteArea from './WinningVoteArea';
 
-const GamePage = ({ socket, status = 4, playerList, messages }): JSX.Element => {
+const GamePage = ({ socket, status = 1, playerList, messages }) => {
   const navigate = useNavigate();
   const [sharedImageUrl, setSharedImageUrl] = useState<string | null>(null);
 
