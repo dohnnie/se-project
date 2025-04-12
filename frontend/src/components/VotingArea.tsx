@@ -1,26 +1,26 @@
 // frontend/src/components/VotingArea.tsx
 import { Box, Typography, Container, Button } from '@mui/material';
 
-const Prompts = ({ prompt }: { prompt: string }) => (
-  <Button
-    variant="contained"
-    sx={{
-      borderRadius: '10px',
-      minHeight: '20%',
-      minWidth: '100%',
-      maxHeight: '25%',
-      maxWidth: '100%',
-      fontSize: '25px',
-      p: '5px',
-      color: 'black',
-      bgcolor: 'white',
-      my: '15px',
-    }}
-  >
-    {prompt}
-  </Button>
-);
-
+const Prompts = ({ prompt }) => {
+  return (
+    <Button
+      variant='contained'
+      sx={{
+        borderRadius: '10px',
+        minHeight: '20%',
+        minWidth: '100%',
+        maxHeight: '25%',
+        maxWidth: '100%',
+        fontSize: '25px',
+        p: '5px',
+        color: 'white',
+        fontWeight: 'bold',
+        bgcolor: '#F35B66',
+        my: '15px',
+      }}>
+      {prompt}
+    </Button>
+  );
 interface VotingAreaProps {
   prompts: string[];
   sharedImageUrl?: string | null;
@@ -31,7 +31,8 @@ const VotingArea: React.FC<VotingAreaProps> = ({ prompts, sharedImageUrl }): JSX
     <>
       <Typography
         sx={{
-          bgcolor: 'white',
+          bgcolor: '#56A8F1',
+          color: 'black',
           justifyContent: 'center',
           display: 'flex',
           fontSize: '70px',
