@@ -1,5 +1,6 @@
 import { Box, Typography, Container, FormControl, Input, Button } from '@mui/material';
 import { useState } from 'react';
+import LoadingArea from './loadingArea';
 
 /*
  * Possible statuses are:
@@ -19,25 +20,28 @@ type Prompt = {
 
 
 
-const GameArea = ({ socket, status = 2 }) => {
+const GameArea = ({ socket, status }) => {
   const [prompt, setPrompt] = useState(() => '');
 
   const renderText = (testPlayer: string, testTime: number) => {
     switch (status) {
+      case 1: 
+        // Loading
+        return(<></>);
       case 2:
         //Prompting
         return (
           <>
-            <Typography sx={{ fontSize: '75px', mx: '5px' }}>{testPlayer} is prompting</Typography>
-            <Typography sx={{ fontSize: '75px', mx: '10px' }}>{testTime}s remaining</Typography>
+            <Typography sx={{ fontSize: '75px', m: '10px', }}>{testPlayer} is prompting</Typography>
+            <Typography sx={{ fontSize: '75px', m: '10px', }}>{testTime}s remaining</Typography>
           </>
         );
       // Guessing
       case 3:
         return (
           <>
-            <Typography sx={{ fontSize: '75px' }}>Players are guessing</Typography>
-            <Typography sx={{ fontSize: '75px', mx: '10px' }}>{testTime}s remaining</Typography>
+            <Typography sx={{ fontSize: '75px', m: '10px', }}>Players are guessing</Typography>
+            <Typography sx={{ fontSize: '75px', m: '10px', }}>{testTime}s remaining</Typography>
           </>
         );
     }
@@ -71,7 +75,6 @@ const GameArea = ({ socket, status = 2 }) => {
         borderRadius: '20px',
         bgcolor: '#56A8F1',
         width: '95%',
-        p: '10px',
       }}>
         {renderText(testPlayer, testTime)}
       </Box>
@@ -94,40 +97,47 @@ const GameArea = ({ socket, status = 2 }) => {
             }}
           />
         )}
+        {(status === 1) && (
+          <LoadingArea></LoadingArea>
+        )}
       </Box>
       <Box
         component='form'
       >
-        <FormControl sx={{
-          display: 'flex',
-          flexDirection: 'row',
-        }}>
-          <Input
-            type='text'
-            placeholder='Write Prompt'
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            sx={{
-              width: '100%',
-              height: '5vh',
-              bgcolor: 'white',
-              borderRadius: '5px',
-              mr: '5px',
-            }}
-          />
-          <Button
-            onClick={handlePromptSubmission}
-            variant='contained'
-            sx={{
-              width: '10%',
-              height: '5vh',
-              bgcolor: '#004D17',
-              '&:hover': { bgcolor: '#56A8F1', color: 'black' },
-              color: 'white',
-            }}>
-            SEND
-          </Button>
-        </FormControl>
+        {(status!==1)?
+          <FormControl sx={{
+            display: 'flex',
+            flexDirection: 'row',
+          }}>
+            <Input
+              type='text'
+              placeholder='Write Prompt'
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              sx={{
+                width: '100%',
+                height: '5vh',
+                bgcolor: 'white',
+                borderRadius: '5px',
+                mr: '5px',
+              }}
+            />
+            <Button
+              onClick={handlePromptSubmission}
+              variant='contained'
+              sx={{
+                width: '10%',
+                height: '5vh',
+                bgcolor: '#004D17',
+                '&:hover': { bgcolor: '#56A8F1', color: 'black' },
+                color: 'white',
+              }}>
+              SEND
+            </Button>
+          </FormControl>
+        :
+        <></>
+        }
       </Box>
     </Box>
   );
