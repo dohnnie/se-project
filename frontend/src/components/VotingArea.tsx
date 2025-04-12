@@ -21,6 +21,7 @@ const Prompts = ({ prompt }) => {
       {prompt}
     </Button>
   );
+}
 interface VotingAreaProps {
   prompts: string[];
   sharedImageUrl?: string | null;

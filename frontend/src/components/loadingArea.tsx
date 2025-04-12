@@ -44,6 +44,7 @@ const loadingArea = () => {
     const letters = 'LOADING'.split('');
 
     return (
+      // Inspiration from Subaashbala on Uiverse.io
       <LoaderContainer>
         {letters.map((char, i) => (
           <Letter
