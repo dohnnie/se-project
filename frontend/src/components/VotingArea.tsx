@@ -1,3 +1,4 @@
+// frontend/src/components/VotingArea.tsx
 import { Box, Typography, Container, Button } from '@mui/material';
 
 const Prompts = ({ prompt }) => {
@@ -20,9 +21,12 @@ const Prompts = ({ prompt }) => {
       {prompt}
     </Button>
   );
+interface VotingAreaProps {
+  prompts: string[];
+  sharedImageUrl?: string | null;
 }
 
-const VotingArea = ({ prompts }) => {
+const VotingArea: React.FC<VotingAreaProps> = ({ prompts, sharedImageUrl }): JSX.Element => {
   return (
     <>
       <Typography
@@ -30,7 +34,6 @@ const VotingArea = ({ prompts }) => {
           bgcolor: '#56A8F1',
           color: 'black',
           justifyContent: 'center',
-          alignContent: 'center',
           display: 'flex',
           fontSize: '70px',
           borderRadius: '10px',
@@ -39,45 +42,49 @@ const VotingArea = ({ prompts }) => {
       >
         Vote for the best prompt!
       </Typography>
-      <Box sx={{
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: "center",
-        maxWidth: "60vw",
-        mt: '50px',
-        mb: '100px'
-      }}>
-        <Box sx={{
-          borderRadius: '10px',
-          height: '50vh',
-          maxWidth: '50%',
-          mr: 10,
-        }}>
-          <img src="/cat.webp"
-            alt="Image of a cat licking its cheek"
-            height='100%'
-            width='100%'
-            style={{
-              border: '5px solid #F35B66',
-              borderRadius: '40px',
-            }}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          maxWidth: '60vw',
+          mt: '50px',
+          mb: '100px',
+        }}
+      >
+        <Box
+          sx={{
+            borderRadius: '10px',
+            height: '50vh',
+            maxWidth: '50%',
+            mr: 10,
+          }}
+        >
+          <img
+            src={sharedImageUrl ? sharedImageUrl : '/cat.webp'}
+            alt={sharedImageUrl ? 'Generated image' : "Image of a cat licking its cheek"}
+            height="100%"
+            width="100%"
+            style={{ border: '5px solid #F35B66', borderRadius: '40px' }}
           />
         </Box>
-        <Box sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          maxWidth: '60%',
-          minHeight: '50vh',
-        }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            maxWidth: '60%',
+            minHeight: '50vh',
+          }}
+        >
           <Container>
-            {
-              prompts.map(currentPrompt => <Prompts prompt={currentPrompt} />)
-            }
+            {prompts.map((currentPrompt, index) => (
+              <Prompts prompt={currentPrompt} key={index} />
+            ))}
           </Container>
         </Box>
       </Box>
     </>
   );
-}
+};
 
 export default VotingArea;

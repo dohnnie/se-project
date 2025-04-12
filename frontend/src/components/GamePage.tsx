@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+// frontend/src/components/GamePage.tsx
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Box, Button, Typography, Divider } from '@mui/material';
+import { Container, Box, Button, Typography } from '@mui/material';
 import PlayerList from './PlayerList';
 import Chat from './Chat';
 import GameArea from './GameArea';
@@ -10,24 +11,9 @@ import WinningVoteArea from './WinningVoteArea';
 
 const GamePage = ({ socket, status = 4, playerList, messages }) => {
   const navigate = useNavigate();
-  const [players, setPlayers] = useState(() => []);
+  const [sharedImageUrl, setSharedImageUrl] = useState<string | null>(null);
 
-
-  const testPlayers = [
-    { name: 'Johnathan', points: 10 },
-    { name: 'Jesus', points: 25 },
-    { name: 'Tom', points: 4 },
-    { name: 'Gabriella', points: 100 },
-    { name: 'Ryan', points: 44 },
-  ];
-  const testAnswers = [
-    "cat",
-    "dog",
-    "animal",
-    "This is a default prompt answer"
-  ];
-
-  const handleLobby = (event) => {
+  const handleLobby = (event: React.FormEvent) => {
     event.preventDefault();
     navigate('/');
   };
@@ -37,23 +23,16 @@ const GamePage = ({ socket, status = 4, playerList, messages }) => {
       case 0:
         return <WaitingArea />;
       case 4:
-        return <VotingArea prompts={testAnswers} />;
+        return <VotingArea prompts={["cat", "dog", "animal", "default prompt"]} sharedImageUrl={sharedImageUrl} />;
       case 5:
-        return <WinningVoteArea winningPrompt={testAnswers[0]} winnerName={testPlayers[0].name} />;
+        return <WinningVoteArea winningPrompt={"cat"} winnerName={"Johnathan"} />;
       default:
-        return <GameArea socket={socket} status={status} />;
+        return <GameArea socket={socket} status={status} setImageUrl={setSharedImageUrl} />;
     }
-  }
+  };
 
   return (
-    <Box
-      sx={{
-        bgcolor: '#4D0036',
-        maxHeight: '100vh',
-        maxWidth: '100vw',
-        display: "flex",
-        flexDirection: "column",
-      }}>
+    <Box sx={{ bgcolor: '#4D0036', maxHeight: '100vh', maxWidth: '100vw', display: "flex", flexDirection: "column" }}>
       <Box
         sx={{
           bgcolor: '#F35B66',
@@ -66,15 +45,7 @@ const GamePage = ({ socket, status = 4, playerList, messages }) => {
           justifyContent: "space-between",
         }}
       >
-        <Typography component='h1'
-          sx={{
-            fontSize: '70px',
-            padding: '5px',
-            ml: '15px',
-          }}
-        >
-          Picprompt
-        </Typography>
+        <Typography component='h1' sx={{ fontSize: '70px', padding: '5px', ml: '15px' }}>Picprompt</Typography>
         <Typography>Player Count: {playerList.length}</Typography>
         <Button
           sx={{
@@ -91,15 +62,7 @@ const GamePage = ({ socket, status = 4, playerList, messages }) => {
           Leave Game
         </Button>
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          minHeight: '92vh',
-          maxHeight: '92vh',
-          minWidth: '100vw',
-          maxWidth: '100vw',
-        }}>
+      <Box sx={{ display: "flex", flexDirection: "row", minHeight: '92vh', maxHeight: '92vh', minWidth: '100vw', maxWidth: '100vw' }}>
         <PlayerList players={playerList} />
         <Container
           sx={{
@@ -109,8 +72,6 @@ const GamePage = ({ socket, status = 4, playerList, messages }) => {
             minWidth: '60vw',
             maxWidth: '60vw',
             flexGrow: 1,
-            justifyConent: "center",
-            alignItems: "center",
           }}
         >
           {renderGameContent()}
