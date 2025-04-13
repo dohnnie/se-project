@@ -9,7 +9,7 @@ import VotingArea from './VotingArea';
 import WaitingArea from './WaitingArea';
 import WinningVoteArea from './WinningVoteArea';
 
-const GamePage = ({ socket, status, playerList, messages }) => {
+const GamePage = ({ socket, status, playerList, messages, prompts }) => {
   const navigate = useNavigate();
   const [sharedImageUrl, setSharedImageUrl] = useState<string | null>(null);
 
@@ -23,7 +23,7 @@ const GamePage = ({ socket, status, playerList, messages }) => {
       case 0:
         return <WaitingArea socket={socket} />;
       case 4:
-        return <VotingArea socket={socket} prompts={["cat", "dog", "animal", "default prompt"]} sharedImageUrl={sharedImageUrl} />;
+        return <VotingArea socket={socket} prompts={prompts.current} sharedImageUrl={sharedImageUrl} />;
       case 5:
         return <WinningVoteArea winningPrompt={"cat"} winnerName={"Johnathan"} />;
       default:

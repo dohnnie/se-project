@@ -63,7 +63,6 @@ const GameArea = ({ socket, status, setImageUrl }) => {
     };
     socket.emit('submitPrompt', promptData);
     await generateImage(prompt);
-    setPrompt('');
   };
 
   const testTime = 30;
@@ -114,40 +113,38 @@ const GameArea = ({ socket, status, setImageUrl }) => {
         component='form'
       >
         {(status !== 1) ?
-          <Box component="form" onSubmit={handlePromptSubmission}>
-            <FormControl
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+            }}
+          >
+            <Input
+              type="text"
+              placeholder="Write Prompt"
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
               sx={{
-                display: 'flex',
-                flexDirection: 'row',
+                width: '100%',
+                height: '5vh',
+                bgcolor: 'white',
+                borderRadius: '5px',
+                mr: '5px',
+              }}
+            />
+            <Button
+              onClick={handlePromptSubmission}
+              variant="contained"
+              sx={{
+                width: '10%',
+                height: '5vh',
+                bgcolor: '#004d17',
+                '&:hover': { bgcolor: '#56A8F1', color: 'black' },
+                color: 'white'
               }}
             >
-              <Input
-                type="text"
-                placeholder="Write Prompt"
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                sx={{
-                  width: '100%',
-                  height: '5vh',
-                  bgcolor: 'white',
-                  borderRadius: '5px',
-                  mr: '5px',
-                }}
-              />
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{
-                  width: '10%',
-                  height: '5vh',
-                  bgcolor: '#004d17',
-                  '&:hover': { bgcolor: '#56A8F1', color: 'black' },
-                  color: 'white'
-                }}
-              >
-                SEND
-              </Button>
-            </FormControl>
+              SEND
+            </Button>
           </Box>
           :
           <></>

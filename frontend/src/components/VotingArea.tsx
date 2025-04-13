@@ -87,9 +87,11 @@ const VotingArea: React.FC<VotingAreaProps> = ({ socket, prompts, sharedImageUrl
           }}
         >
           <Container>
-            {prompts.map((currentPrompt, index) => (
-              <Prompts socket={socket} prompt={currentPrompt} key={index} />
-            ))}
+            {
+              Object.entries(prompts).map(([prompt], index, []) => (
+                <Prompts socket={socket} prompt={prompt} />
+              ))
+            }
           </Container>
         </Box>
       </Box>

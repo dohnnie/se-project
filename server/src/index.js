@@ -86,6 +86,7 @@ io.on('connection', socket => {
     });
 
     socket.on('submitPrompt', (promptData) => {
+      console.log(promptData);
       const prompt = promptData.prompt;
       prompts[prompt] = {
         votes: 0,
@@ -93,6 +94,7 @@ io.on('connection', socket => {
         promptId: promptData.promptId,
         playerId: promptData.id
       };
+      io.emit("promptReceived", prompts);
     });
 
     socket.on('voteSubmitted', (voteData) => {
