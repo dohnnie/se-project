@@ -1,9 +1,18 @@
 // frontend/src/components/VotingArea.tsx
 import { Box, Typography, Container, Button } from '@mui/material';
 
-const Prompts = ({ prompt }) => {
+const Prompts = ({ socket, prompt }) => {
+
+  const handleVoteSubmission = (e) => {
+    e.preventDefault();
+    socket.emit("voteSubmitted", {
+      prompt: prompt,
+    })
+  }
+
   return (
     <Button
+      onClick={handleVoteSubmission}
       variant='contained'
       sx={{
         borderRadius: '10px',
@@ -27,7 +36,7 @@ interface VotingAreaProps {
   sharedImageUrl?: string | null;
 }
 
-const VotingArea: React.FC<VotingAreaProps> = ({ prompts, sharedImageUrl }): JSX.Element => {
+const VotingArea: React.FC<VotingAreaProps> = ({ socket, prompts, sharedImageUrl }): JSX.Element => {
   return (
     <>
       <Typography
@@ -79,7 +88,7 @@ const VotingArea: React.FC<VotingAreaProps> = ({ prompts, sharedImageUrl }): JSX
         >
           <Container>
             {prompts.map((currentPrompt, index) => (
-              <Prompts prompt={currentPrompt} key={index} />
+              <Prompts socket={socket} prompt={currentPrompt} key={index} />
             ))}
           </Container>
         </Box>

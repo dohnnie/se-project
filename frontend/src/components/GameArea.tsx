@@ -1,5 +1,6 @@
 import { Box, Typography, Container, FormControl, Input, Button } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useImageGeneration } from '../hooks/useImageGeneration';
 import LoadingArea from './loadingArea';
 
 /*
@@ -12,22 +13,28 @@ import LoadingArea from './loadingArea';
  * Vote over = 5
  */
 
-type Prompt = {
-  prompt: string,
-  player: string | null,
-  promptId: string,
+interface GameAreaProps {
+  socket: any;
+  status?: number;
+  setImageUrl?: (url: string) => void;
 }
 
-
-
-const GameArea = ({ socket, status }) => {
+const GameArea = ({ socket, status, setImageUrl }) => {
   const [prompt, setPrompt] = useState(() => '');
+  const { imageUrl, statusMessage, generateImage } = useImageGeneration();
+
+  useEffect(() => {
+    if (setImageUrl && imageUrl) {
+      console.log('[GameArea] Lifting image URL to parent:', imageUrl);
+      setImageUrl(imageUrl);
+    }
+  }, [imageUrl, setImageUrl]);
 
   const renderText = (testPlayer: string, testTime: number) => {
     switch (status) {
-      case 1: 
+      case 1:
         // Loading
-        return(<></>);
+        return (<></>);
       case 2:
         //Prompting
         return (
@@ -46,14 +53,16 @@ const GameArea = ({ socket, status }) => {
         );
     }
   }
-  const handlePromptSubmission = (e) => {
+  const handlePromptSubmission = async (e) => {
     e.preventDefault();
-    const promptData: Prompt = {
-      prompt: prompt,
+    const promptData = {
+      prompt,
       player: sessionStorage.getItem('name'),
+      playerId: sessionStorage.getItem('id'),
       promptId: `${socket.id}${Math.random()}`,
-    }
+    };
     socket.emit('submitPrompt', promptData);
+    await generateImage(prompt);
     setPrompt('');
   };
 
@@ -78,22 +87,22 @@ const GameArea = ({ socket, status }) => {
       }}>
         {renderText(testPlayer, testTime)}
       </Box>
-      <Box sx={{
-        display: 'flex',
-        my: '10px',
-        maxHeight: '50vh',
-        maxWidth: '50%',
-      }}>
-        {(status === 3) && (
-
+      <Box
+        sx={{
+          display: 'flex',
+          my: '10px',
+          maxHeight: '50vh',
+          maxWidth: '50%',
+        }}
+      >
+        {(status === 2) && (
           <img
-            src="/cat.webp"
-            alt="Image of a cat licking it's cheek"
-            height='100%'
-            width='100%'
+            src={imageUrl ? imageUrl : 'cat.webp'}
+            alt={imageUrl ? 'Generated image' : 'Placeholder image'}
+            height="100%"
+            width="100%"
             style={{
-              border: '5px solid #F35B66',
-              borderRadius: '40px',
+              border: '5px solid #F35B66', borderRadius: '40px'
             }}
           />
         )}
@@ -104,39 +113,44 @@ const GameArea = ({ socket, status }) => {
       <Box
         component='form'
       >
-        {(status!==1)?
-          <FormControl sx={{
-            display: 'flex',
-            flexDirection: 'row',
-          }}>
-            <Input
-              type='text'
-              placeholder='Write Prompt'
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
+        {(status !== 1) ?
+          <Box component="form" onSubmit={handlePromptSubmission}>
+            <FormControl
               sx={{
-                width: '100%',
-                height: '5vh',
-                bgcolor: 'white',
-                borderRadius: '5px',
-                mr: '5px',
+                display: 'flex',
+                flexDirection: 'row',
               }}
-            />
-            <Button
-              onClick={handlePromptSubmission}
-              variant='contained'
-              sx={{
-                width: '10%',
-                height: '5vh',
-                bgcolor: '#004D17',
-                '&:hover': { bgcolor: '#56A8F1', color: 'black' },
-                color: 'white',
-              }}>
-              SEND
-            </Button>
-          </FormControl>
-        :
-        <></>
+            >
+              <Input
+                type="text"
+                placeholder="Write Prompt"
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                sx={{
+                  width: '100%',
+                  height: '5vh',
+                  bgcolor: 'white',
+                  borderRadius: '5px',
+                  mr: '5px',
+                }}
+              />
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{
+                  width: '10%',
+                  height: '5vh',
+                  bgcolor: '#004d17',
+                  '&:hover': { bgcolor: '#56A8F1', color: 'black' },
+                  color: 'white'
+                }}
+              >
+                SEND
+              </Button>
+            </FormControl>
+          </Box>
+          :
+          <></>
         }
       </Box>
     </Box>

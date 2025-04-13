@@ -9,7 +9,7 @@ import VotingArea from './VotingArea';
 import WaitingArea from './WaitingArea';
 import WinningVoteArea from './WinningVoteArea';
 
-const GamePage = ({ socket, status = 4, playerList, messages }) => {
+const GamePage = ({ socket, status, playerList, messages }) => {
   const navigate = useNavigate();
   const [sharedImageUrl, setSharedImageUrl] = useState<string | null>(null);
 
@@ -21,9 +21,9 @@ const GamePage = ({ socket, status = 4, playerList, messages }) => {
   const renderGameContent = () => {
     switch (status) {
       case 0:
-        return <WaitingArea />;
+        return <WaitingArea socket={socket} />;
       case 4:
-        return <VotingArea prompts={["cat", "dog", "animal", "default prompt"]} sharedImageUrl={sharedImageUrl} />;
+        return <VotingArea socket={socket} prompts={["cat", "dog", "animal", "default prompt"]} sharedImageUrl={sharedImageUrl} />;
       case 5:
         return <WinningVoteArea winningPrompt={"cat"} winnerName={"Johnathan"} />;
       default:
@@ -32,7 +32,14 @@ const GamePage = ({ socket, status = 4, playerList, messages }) => {
   };
 
   return (
-    <Box sx={{ bgcolor: '#4D0036', maxHeight: '100vh', maxWidth: '100vw', display: "flex", flexDirection: "column" }}>
+    <Box
+      sx={{
+        bgcolor: '#4D0036',
+        maxHeight: '100vh',
+        maxWidth: '100vw',
+        display: "flex",
+        flexDirection: "column"
+      }}>
       <Box
         sx={{
           bgcolor: '#F35B66',

@@ -9,6 +9,9 @@ const App: React.FC = () => {
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [activePlayers, setActivePlayers] = useState(() => []);
   const [messages, setMessages] = useState(() => []);
+  const [prompter, setPrompter] = useState('');
+  const [status, setStatus] = useState(() => 4);
+  const [time, setTime] = useState(null);
   const messagesRef = useRef(messages);
 
   useEffect(() => {
@@ -32,17 +35,30 @@ const App: React.FC = () => {
       setMessages(prevMessages => [...prevMessages, messageData]);
     }
 
+    const handleInitGame = (initData) => {
+      setStatus(initData.status);
+      setPrompter(initData.prompter);
+      setTime(initData.startTime);
+    }
+
+    const handleEndRound = (roundData) => {
+
+    }
 
     socket.on('connected', onConnect);
     socket.on('disconnect', onDisconnect);
     socket.on('updateList', updateList);
     socket.on('newMessage', newMessage);
+    socket.on("gameStart", handleInitGame);
+    socket.on('endRound', handleEndRound);
 
     return () => {
       socket.off('connect', onConnect);
       socket.off('disconnect', onDisconnect);
       socket.off('updateList', updateList);
       socket.off('newMessage', newMessage);
+      socket.off('gameStart', handleInitGame);
+      socket.off('endRound', handleEndRound);
     };
   }, []);
 
@@ -53,7 +69,7 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LobbyPage isConnected={isConnected} socket={socket} />} />
-          <Route path="/game" element={<GamePage socket={socket} playerList={activePlayers} messages={messages} />} />
+          <Route path="/game" element={<GamePage socket={socket} status={status} playerList={activePlayers} messages={messages} />} />
         </Routes>
       </BrowserRouter>
     </Box>

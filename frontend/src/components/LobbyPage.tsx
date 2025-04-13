@@ -12,7 +12,7 @@ const LobbyPage = ({ isConnected, socket }) => {
     e.preventDefault();
     console.log('Create button clicked!');
     sessionStorage.setItem('name', name);
-    sessionStorage.setItem('playerId', socket.id);
+    sessionStorage.setItem('id', socket.id);
     socket.emit('create', { name: name, id: socket.id });
     navigate('/game');
   };
@@ -56,7 +56,7 @@ const LobbyPage = ({ isConnected, socket }) => {
             placeholder='Enter your name'
             value={name}
             onChange={(e) => setName(e.target.value)}
-            
+
             sx={{
               color: '#56A8F1',
               bgcolor: 'white',
