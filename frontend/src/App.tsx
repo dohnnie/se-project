@@ -10,7 +10,7 @@ const App: React.FC = () => {
   const [activePlayers, setActivePlayers] = useState(() => []);
   const [messages, setMessages] = useState(() => []);
   const [prompter, setPrompter] = useState('');
-  const [status, setStatus] = useState(() => 4);
+  const [status, setStatus] = useState(() => 0);
   const [time, setTime] = useState(null);
   const messagesRef = useRef(messages);
   const prompts = useRef({});
@@ -37,7 +37,7 @@ const App: React.FC = () => {
     }
 
     const handleInitGame = (initData) => {
-      setStatus(initData.status);
+      setStatus(prevStatus => prevStatus = initData.status);
       setPrompter(initData.prompter);
       setTime(initData.startTime);
     }
@@ -46,8 +46,9 @@ const App: React.FC = () => {
       prompt.current = promptData;
     }
 
-    const handleEndRound = (roundData) => {
-
+    const handleEndPhase = (roundData) => {
+      console.log("Round over!");
+      socket.emit("nextPhase", { message: "Start next Round", status: status });
     }
 
     socket.on('connected', onConnect);
@@ -55,7 +56,7 @@ const App: React.FC = () => {
     socket.on('updateList', updateList);
     socket.on('newMessage', newMessage);
     socket.on('gameStart', handleInitGame);
-    socket.on('endRound', handleEndRound);
+    socket.on('phaseEnd', handleEndPhase);
     socket.on('promptReceived', receiveNewPrompts);
 
     return () => {
@@ -64,7 +65,7 @@ const App: React.FC = () => {
       socket.off('updateList', updateList);
       socket.off('newMessage', newMessage);
       socket.off('gameStart', handleInitGame);
-      socket.off('endRound', handleEndRound);
+      socket.off('phaseEnd', handleEndPhase);
     };
   }, []);
 

@@ -32,9 +32,10 @@ const io = new Server(expressServer, {
 
 let players = [];
 let prompts = {};
-let prevTime = null;
+let status = 0;
 let start = false;
 
+// Game functions
 const initGame = (playerList, time) => {
   if (playerList.length > 0 && playerList !== null) {
     const prompter = playerList[0];
@@ -53,48 +54,84 @@ const initGame = (playerList, time) => {
   }
 }
 
+let phaseInterval = null;
+
+const startTimer = () => {
+
+  if (phaseInterval) {
+    console.log("Timer has already started");
+    return;
+  }
+
+  phaseInterval = setInterval(() => {
+    io.emit('phaseEnd', "Begin!");
+    console.log("5 seconds have passed")
+  }, 5000);
+  console.log("Timer Started");
+}
+
+const stopPhaseTimer = () => {
+  if (phaseInterval) {
+    clearInterval(phaseInterval);
+    phaseInterval = null;
+    console.log("Stopping timer");
+  }
+}
+
 /*
  * Events for the server to check and fire 
  * startGame: This event creates initial values the server needs in order to start the game
  * Prompt: Handles submissios by players, and does different things depending on whether the prompter or guess submitted a prompt
  * Votes: Handles calculating the amount of votes a prompt receives and which prompt recieved the most votes
- * Turns: When each round ends, sets values back to initial round values
+ * Turns: When each round starts, sets values back to initial round values
  */
 
 io.on('connection', socket => {
   console.log(`${socket.id} has joined the server!`);
 
+  // For reconnection implementation
   if (socket.recovered) {
     console.log(`${socket.id} has rejoined`);
   } else {
 
-    if (start) {
-      setInterval(() => {
-        console.log("40 seconds have passed");
-      }, 40000);
+    // For the phases of a round, when a phase starts e.g. prompting starts, or guessing starts, or voting starts
+    // a timer will start for 40 seconds and when time is up send an end phase event to move on to the next phase
+    socket.on("nextPhase", (phaseData) => {
+      stopPhaseTimer();
+      console.log("Starting next phase!");
+      console.log(phaseData.message);
+      console.log(phaseData.status);
+    });
 
-    }
+    // When a client clicks the create button on the lobby page, this event fires adding a player to a list of active players
+    // and sending that list to every connected client
     socket.on('create', (player) => {
       console.log(`${player.name} has joined a lobby`);
       players.push(player);
       io.emit('updateList', [...players]);
+      // This fires twice to make sure that the client is receiving the updated list
       socket.on('requestList', () => io.emit([...players]));
     });
 
 
+    // Handles the chat functionality for players, sends the message to every conencted client
     socket.on('message', (data) => {
       console.log(data);
       io.emit('newMessage', data);
     })
 
+    // When players first join a game they will see a waiting page, where they can wait for other players to join them,
+    // when players are ready they will click a butotn that fires this event, and initializes data for the start of the game
     socket.on('start', (message) => {
       console.log(message);
       const initData = initGame(players, 40);
       io.emit('gameStart', initData);
-      prevTime = Date.now();
-      start = true;
+      // Starts the timer
+      startTimer();
     });
 
+    // When playes submit a prompt it will save the prompt to a list of prompts to be used to display for the voting screen
+    // attributes associated with the prompt are needed to calculate point distribution.
     socket.on('submitPrompt', (promptData) => {
       console.log(promptData);
       const prompt = promptData.prompt;
@@ -107,6 +144,7 @@ io.on('connection', socket => {
       io.emit("promptReceived", prompts);
     });
 
+    // When players click on a prompt to vote it will get the amount of votes for the current prompt, and increments it by one
     socket.on('voteSubmitted', (voteData) => {
       const prompt = voteData.prompt
       console.log(prompts[prompt][votes]);
@@ -119,7 +157,7 @@ io.on('connection', socket => {
       }
     });
 
-
+    // Disconnecting
     socket.on('disconnect', () => {
       console.log(`A ${socket.id} has disconnected`);
       players = players.filter(player => player.id !== socket.id);
