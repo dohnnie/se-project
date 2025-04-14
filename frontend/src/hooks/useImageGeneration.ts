@@ -10,7 +10,7 @@ export function useImageGeneration() {
     const pollInterval = 3000;
     const intervalId = setInterval(async () => {
       try {
-        const res = await fetch(`http://localhost:3001/api/prediction/${predictionId}`);
+        const res = await fetch(`http://localhost:3000/api/prediction/${predictionId}`);
         const data = await res.json();
         console.log('[useImageGeneration] Polling data:', data);
         if (data.status === 'succeeded') {
@@ -35,7 +35,7 @@ export function useImageGeneration() {
     setStatusMessage('Generating image, please wait...');
     setImageUrl(null);
     try {
-      const response = await fetch('http://localhost:3001/api/generate-image', {
+      const response = await fetch('http://localhost:3000/api/generate-image', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

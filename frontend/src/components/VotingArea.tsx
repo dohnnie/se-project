@@ -1,57 +1,60 @@
-// frontend/src/components/VotingArea.tsx
+// Option 2: Dark Minimalist (VotingArea.tsx)
 import { Box, Typography, Container, Button } from '@mui/material';
 
-const Prompts = ({ socket, prompt }) => {
-
-  const handleVoteSubmission = (e) => {
-    e.preventDefault();
-    socket.emit("voteSubmitted", {
-      prompt: prompt,
-    })
-  }
-
-  return (
-    <Button
-      onClick={handleVoteSubmission}
-      variant='contained'
-      sx={{
-        borderRadius: '10px',
-        minHeight: '20%',
-        minWidth: '100%',
-        maxHeight: '25%',
-        maxWidth: '100%',
-        fontSize: '25px',
-        p: '5px',
-        color: 'white',
-        fontWeight: 'bold',
-        bgcolor: '#F35B66',
-        my: '15px',
-      }}>
-      {prompt}
-    </Button>
-  );
-}
 interface VotingAreaProps {
   prompts: string[];
   sharedImageUrl?: string | null;
 }
 
-const VotingArea: React.FC<VotingAreaProps> = ({ socket, prompts, sharedImageUrl }): JSX.Element => {
+const Prompts = ({ prompt }: { prompt: string }) => {
+  return (
+    <Button
+  variant="contained"
+  sx={{
+    borderRadius: '10px',
+    minHeight: '20%',
+    minWidth: '100%',
+    maxHeight: '25%',
+    maxWidth: '100%',
+    fontSize: '25px',
+    p: '5px',
+    color: 'white',
+    fontWeight: 'bold',
+    background: 'linear-gradient(135deg, #2b6cb0, #37b2ab)',
+    my: '15px',
+    backgroundSize: '200%',
+    animation: 'gradientShift 3s ease infinite',
+    '@keyframes gradientShift': {
+      '0%': { backgroundPosition: '0%' },
+      '50%': { backgroundPosition: '100%' },
+      '100%': { backgroundPosition: '0%' },
+    },
+  }}
+>
+  {prompt}
+</Button>
+
+  );
+};
+
+const VotingArea: React.FC<VotingAreaProps> = ({ prompts, sharedImageUrl }): JSX.Element => {
   return (
     <>
       <Typography
-        sx={{
-          bgcolor: '#56A8F1',
-          color: 'black',
-          justifyContent: 'center',
-          display: 'flex',
-          fontSize: '70px',
-          borderRadius: '10px',
-          m: '20px',
-        }}
-      >
-        Vote for the best prompt!
-      </Typography>
+  component="h1"
+  sx={{
+    fontSize: '70px',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    m: '40px',
+    fontFamily: '"Comic Sans MS", cursive, sans-serif',
+    color: 'white',
+    textShadow: '3px 3px 6px rgba(0, 0, 0, 0.5)',
+  }}
+>
+  Vote for the best prompt!
+</Typography>
+
       <Box
         sx={{
           display: 'flex',
@@ -67,15 +70,14 @@ const VotingArea: React.FC<VotingAreaProps> = ({ socket, prompts, sharedImageUrl
             borderRadius: '10px',
             height: '50vh',
             maxWidth: '50%',
-            mr: 10,
+            mr: 2,
+            boxShadow: '0px 4px 10px rgba(0,0,0,0.5)',
           }}
         >
           <img
             src={sharedImageUrl ? sharedImageUrl : '/cat.webp'}
-            alt={sharedImageUrl ? 'Generated image' : "Image of a cat licking its cheek"}
-            height="100%"
-            width="100%"
-            style={{ border: '5px solid #F35B66', borderRadius: '40px' }}
+            alt={sharedImageUrl ? 'Generated image' : "Placeholder"}
+            style={{ width: '100%', height: '100%', borderRadius: '10px', border: '2px solid #2d3748' }}
           />
         </Box>
         <Box
@@ -84,14 +86,13 @@ const VotingArea: React.FC<VotingAreaProps> = ({ socket, prompts, sharedImageUrl
             flexDirection: 'column',
             maxWidth: '60%',
             minHeight: '50vh',
+            justifyContent: 'center',
           }}
         >
           <Container>
-            {
-              Object.entries(prompts).map(([prompt], index, []) => (
-                <Prompts socket={socket} prompt={prompt} />
-              ))
-            }
+            {prompts.map((currentPrompt, index) => (
+              <Prompts prompt={currentPrompt} key={index} />
+            ))}
           </Container>
         </Box>
       </Box>

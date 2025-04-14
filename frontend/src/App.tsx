@@ -4,6 +4,7 @@ import GamePage from './components/GamePage';
 import LobbyPage from './components/LobbyPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Box } from '@mui/material';
+import { Socket } from 'socket.io-client';
 
 const App: React.FC = () => {
   const [isConnected, setIsConnected] = useState(socket.connected);

@@ -1,15 +1,20 @@
+///SERVER INDEX JS
 
 const express = require('express');
 const cors = require('cors');
+const http = require('http');
 const Replicate = require('replicate');
 const path = require('path');
 require('dotenv').config();
 
+// At the top of your server index.js, after your require statements:
+let lobbies = {}; // e.g., { "1234": { players: [playerObj, ...], status: 1 } }
+
 const app = express();
 const PORT = process.env.PORT || 3000;
-const expressServer = app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// const expressServer = app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });    Griffin delettion
 
 
 // Initialize Replicate client
@@ -21,14 +26,17 @@ const replicate = new Replicate({
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
+// Create an HTTP server to wrap the Express app
+const server = http.createServer(app);
 
 const { Server } = require('socket.io');
-const io = new Server(expressServer, () => {
+const io = new Server(server, {
   cors: {
-    origin: `http://localhost:${PORT}`;
-    methods: ["GET", "POST"];
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"]
   }
 });
+
 
 let players = [];
 let prompts = {};
@@ -116,10 +124,85 @@ io.on('connection', socket => {
       io.emit('updateList', players);
       socket.disconnect();
     });
+
+
+    /////// LObby Creation 
+  // Event: Create a lobby
+  // Event: Create a lobby
+socket.on('createLobby', (playerData) => {
+  const { name, lobbyPin } = playerData;
+  
+  // Create the lobby if it doesn't exist.
+  if (!lobbies[lobbyPin]) {
+    lobbies[lobbyPin] = { players: [], status: 1 }; // 1 means waiting/loading
+  }
+  
+  const player = { id: socket.id, name };
+  lobbies[lobbyPin].players.push(player);
+  socket.join(lobbyPin);
+  // Save lobby on socket for reference:
+  socket.lobby = lobbyPin;
+  
+  // Emit updated list to everyone in this lobby.
+  io.to(lobbyPin).emit('updateList', lobbies[lobbyPin].players);
+  console.log(`${name} created and joined lobby ${lobbyPin}`);
+  
+  // If at least 3 players, start the game.
+  if (lobbies[lobbyPin].players.length >= 3 && lobbies[lobbyPin].status === 1) {
+    lobbies[lobbyPin].status = 2; // Change status to "prompting"
+    const randomIndex = Math.floor(Math.random() * lobbies[lobbyPin].players.length);
+    const chosenPrompter = lobbies[lobbyPin].players[randomIndex];
+    io.to(lobbyPin).emit('gameStart', {
+      status: 2,
+      prompter: chosenPrompter.name, // send the chosen player's name
+      startTime: 30,
+    });
   }
 });
+  
+  // Event: Join a lobby
+socket.on('joinLobby', (playerData) => {
+  const { name, lobbyPin } = playerData;
+  
+  // If lobby doesn't exist, send back an error.
+  if (!lobbies[lobbyPin]) {
+    socket.emit('errorMessage', { message: 'Lobby does not exist' });
+    return;
+  }
+  
+  const player = { id: socket.id, name };
+  lobbies[lobbyPin].players.push(player);
+  socket.join(lobbyPin);
+  socket.lobby = lobbyPin;
+  
+  // Emit updated list to everyone in this lobby.
+  io.to(lobbyPin).emit('updateList', lobbies[lobbyPin].players);
+  console.log(`${name} joined lobby ${lobbyPin}`);
+  
+  // If the lobby just reached 3 players and is still waiting:
+  if (lobbies[lobbyPin].players.length >= 3 && lobbies[lobbyPin].status === 1) {
+    lobbies[lobbyPin].status = 2;
+    const randomIndex = Math.floor(Math.random() * lobbies[lobbyPin].players.length);
+    const chosenPrompter = lobbies[lobbyPin].players[randomIndex];
+    io.to(lobbyPin).emit('gameStart', {
+      status: 2,
+      prompter: chosenPrompter.name,
+      startTime: 30,
+    });
+  }
+});
+  }
 
-// Image generation route
+  
+  
+
+});
+
+
+
+
+
+// Your API endpoints remain the same:
 app.post('/api/generate-image', async (req, res) => {
   try {
     const {
@@ -130,10 +213,9 @@ app.post('/api/generate-image', async (req, res) => {
     } = req.body;
 
     if (!prompt) {
-      console.error("❌ Error: No prompt received!");
       return res.status(400).json({ error: 'Prompt is required' });
     }
-    console.log('🖼️ Generating image with prompt:', prompt);
+    console.log('Generating image with prompt:', prompt);
     const prediction = await replicate.predictions.create({
       model: "google/imagen-3",
       input: {
@@ -143,31 +225,27 @@ app.post('/api/generate-image', async (req, res) => {
         safety_filter_level,
       },
     });
-    console.log("Prediction created:", prediction);
-    if (prediction.status === "starting" || prediction.status === "preocessing") {
+    console.log('Prediction created:', prediction);
+    if (prediction.status === 'starting' || prediction.status === 'processing') {
       return res.status(202).json({
         success: false,
-        error: "Image still processing",
-        predictionId: prediction.id
-      })
-    } else if (prediction.status === "succeeded") {
-      const imageUrl = Array.isArray(prediction.output) ? prediction.output[0] : prediction.output;
-      return res.json({
-        success: true,
-        imageUrl,
+        error: 'Image still processing',
         predictionId: prediction.id
       });
+    } else if (prediction.status === 'succeeded') {
+      const imageUrl = Array.isArray(prediction.output) ? prediction.output[0] : prediction.output;
+      return res.json({ success: true, imageUrl, predictionId: prediction.id });
     } else {
-      console.error("Prediction failed: ", prediction);
+      console.error('Prediction failed:', prediction);
       return res.status(500).json({
-        error: "Prediction failed",
+        error: 'Prediction failed',
         details: prediction.error,
-        predictionId: prediction.id,
+        predictionId: prediction.id
       });
     }
   } catch (error) {
-    console.error('🚨 Error generating image:', error);
-    res.status(500).json({ error: 'Failed to generate image', details: error.message });
+    console.error('Error generating image:', error);
+    return res.status(500).json({ error: 'Failed to generate image', details: error.message });
   }
 });
 
@@ -175,32 +253,22 @@ app.get('/api/prediction/:id', async (req, res) => {
   try {
     const predictionId = req.params.id;
     const prediction = await replicate.predictions.get(predictionId);
-    console.log("Polling prediction:", prediction);
-    if (prediction.status === "succeeded") {
-      const imageUrl = Array.isArray(prediction.output) ? prediction.output[0] : prediction.output
-      return res.json({
-        predictionId,
-        status: prediction.status,
-        error: imageUrl,
-      });
-    } else if (prediction.staatus === "failed") {
-      return res.json({
-        predictionId,
-        status: prediction.status,
-        error: prediction.error,
-      });
+    console.log('Polling prediction:', prediction);
+    if (prediction.status === 'succeeded') {
+      const imageUrl = Array.isArray(prediction.output) ? prediction.output[0] : prediction.output;
+      return res.json({ predictionId, status: prediction.status, output: imageUrl });
+    } else if (prediction.status === 'failed') {
+      return res.json({ predictionId, status: prediction.status, error: prediction.error });
     } else {
-      return res.json({
-        predictionId,
-        status: prediction.status,
-        error: prediction.error,
-      });
+      return res.json({ predictionId, status: prediction.status });
     }
   } catch (error) {
-    console.erro("Error fetching prediction: ", error);
-    res.status(500).json({
-      error: "failed to fetch prediction",
-      details: error.message
-    });
+    console.error('Error fetching prediction:', error);
+    res.status(500).json({ error: 'Failed to fetch prediction', details: error.message });
   }
-})
+});
+
+// Start the HTTP server (with socket.io)
+server.listen(PORT, () => {
+  console.log(`Backend server with socket.io running on port ${PORT}`);
+});

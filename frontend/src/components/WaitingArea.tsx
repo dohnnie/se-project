@@ -41,7 +41,7 @@ const WaitingArea = ({ socket }) => {
         variant="contained"
         sx={{
           bgcolor: '#004D17',
-          '&:hover': { bgcolor: '#56A8F1', color: 'black' },
+          '&:hover': { bgcolor: 'red', color: 'black' },
           color: 'white',
         }}
       >

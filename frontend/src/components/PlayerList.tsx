@@ -12,31 +12,52 @@ const PlayerList = ({ players }) => {
         minWidth: '20vw',
         maxHeight: '92vh',
         height: '70%',
-        bgcolor: '#56A8F1',
+        background: '',
+        border: '1px solid transparent',
+        borderImage: 'linear-gradient(90deg, #2b6cb0, #37b2ab) 1',
+        boxShadow: '0px 4px 10px rgba(150, 200, 240, 0.4)',
         padding: '10px',
         margin: '5px',
         mt: '12vh',
-        borderRadius: '15px',
-        boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.5)',
         gap: '12px',
       }}
     >
       <Typography
-        variant='h2'
-        sx={{
-          fontWeight: 'bold',
-          display: 'flex',
-          justifyContent: 'center',
-          color: 'white',
-        }}
-      >
-        Players
-      </Typography>
-      <Divider
-      sx={{
-        borderWidth: '5px',
-        borderColor: '#4D0036',
-      }}
+  component="h1"
+  variant="h1"
+  sx={{
+    fontSize: '70px',
+    fontWeight: 'bold',
+    position: 'relative',
+    p: '0px',
+    mx: 'auto',         // Auto horizontal margins center the element
+    textAlign: 'center',  // Center the text within the element
+    color: 'white',       // Fallback color (won't be visible due to clipping)
+    background: 'white',
+    backgroundSize: '200%',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    letterSpacing: '0.25rem',
+    mb: 4
+  }}
+>
+  Players
+</Typography>
+
+
+
+
+
+<Divider
+  sx={{
+    height: '0px',
+    borderColor: '#37b2ab',
+    mt: -2,
+    mb: 0,
+  }}
+
+      
+
       ></Divider>
       {players.map(player => <PlayerCard key={player.id} player={player} />)}
     </Box>
