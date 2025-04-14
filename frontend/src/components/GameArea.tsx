@@ -34,7 +34,7 @@ const GameArea = ({ socket, status, setImageUrl }) => {
     switch (status) {
       case 1:
         // Loading
-        return (<></>);
+        return (<LoadingArea></LoadingArea>);
       case 2:
         //Prompting
         return (
@@ -104,9 +104,6 @@ const GameArea = ({ socket, status, setImageUrl }) => {
               border: '5px solid #F35B66', borderRadius: '40px'
             }}
           />
-        )}
-        {(status === 1) && (
-          <LoadingArea></LoadingArea>
         )}
       </Box>
       <Box
