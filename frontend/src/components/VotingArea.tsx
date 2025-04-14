@@ -75,7 +75,7 @@ const VotingArea: React.FC<VotingAreaProps> = ({ prompts, sharedImageUrl }): JSX
           }}
         >
           <img
-            src={sharedImageUrl ? sharedImageUrl : '/cat.webp'}
+            src={sharedImageUrl ? sharedImageUrl : '/picPrompt_advanced.webp'}
             alt={sharedImageUrl ? 'Generated image' : "Placeholder"}
             style={{ width: '100%', height: '100%', borderRadius: '10px', border: '2px solid #2d3748' }}
           />

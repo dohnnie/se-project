@@ -86,7 +86,7 @@ const GameArea: React.FC<GameAreaProps> = ({ socket, status, setImageUrl, curren
             gap: 2,
             p: 0,
             mx: 'auto',
-            mt: '-20px',
+            mt: '-50px',
           }}
         >
           <Typography
@@ -138,7 +138,8 @@ const GameArea: React.FC<GameAreaProps> = ({ socket, status, setImageUrl, curren
             justifyContent: 'center',
             gap: 2,
             p: 1,
-            mx: 'auto'
+            mx: 'auto',
+            mt: '-50px',
           }}
         >
           <Typography
@@ -179,8 +180,6 @@ const GameArea: React.FC<GameAreaProps> = ({ socket, status, setImageUrl, curren
           </Typography>
         </Box>
       );
-    } else {
-      return <Typography sx={{ fontSize: '75px', textAlign: 'center' }}>Game in progress...</Typography>;
     }
   };
 
@@ -200,7 +199,7 @@ const GameArea: React.FC<GameAreaProps> = ({ socket, status, setImageUrl, curren
         {renderHeader()}
       </Box>
 
-      {status === 2 && (
+      {(status === 2 || status ===3) &&(
         <LinearProgress
           variant="determinate"
           value={(timeRemaining / 30) * 100}
@@ -230,7 +229,7 @@ const GameArea: React.FC<GameAreaProps> = ({ socket, status, setImageUrl, curren
           <LoadingArea />
         ) : (
           <img
-            src={imageUrl ? imageUrl : '/cat.webp'}
+            src={imageUrl ? imageUrl : '/picPrompt_advanced.webp'}
             alt={imageUrl ? 'Generated image' : 'Placeholder image'}
             height="100%"
             width="100%"
@@ -242,7 +241,7 @@ const GameArea: React.FC<GameAreaProps> = ({ socket, status, setImageUrl, curren
       {/* Conditional prompt input form based on status (2 for prompting, 3 for guessing) */}
       <Box component="form" onSubmit={handlePromptSubmission}>
         {status === 2 ? (
-          <Box sx={{ mt: 12, width: '80%', mx: 'auto' }}>
+          <Box sx={{ mt: 4, width: '80%', mx: 'auto' }}>
             <Typography
               variant="h6"
               sx={{
@@ -286,7 +285,7 @@ const GameArea: React.FC<GameAreaProps> = ({ socket, status, setImageUrl, curren
             </FormControl>
           </Box>
         ) : status === 3 ? (
-          <Box sx={{ mt: 12, width: '80%', mx: 'auto' }}>
+          <Box sx={{ mt: 1, width: '100%', mx: 'auto' }}>
             <Typography
               variant="h6"
               sx={{

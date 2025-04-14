@@ -1,9 +1,16 @@
 // frontend/src/hooks/useImageGeneration.ts
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export function useImageGeneration() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [statusMessage, setStatusMessage] = useState('');
+
+  // Save the latest imageUrl to local storage whenever it updates
+  useEffect(() => {
+    if (imageUrl) {
+      localStorage.setItem('latestImageUrl', imageUrl);
+    }
+  }, [imageUrl]);
 
   const pollForResult = async (predictionId: string) => {
     setStatusMessage('Image generation is in progress...');

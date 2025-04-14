@@ -131,7 +131,7 @@ const GamePage: React.FC<GamePageProps> = ({ socket, status = 4, playerList, mes
               fontWeight: 'bold',
               position: 'absolute',
               top: -50,
-              right: 1100,
+              right: 1200,
               padding: '10px',
               color: 'white',
               background: 'linear-gradient(90deg, white, #56A8F1, #37b2ab, white)',
@@ -149,9 +149,7 @@ const GamePage: React.FC<GamePageProps> = ({ socket, status = 4, playerList, mes
             Picprompt
           </Typography>
         </Box>
-        <Typography variant="h6" sx={{ color: 'white' }}>
-          Player Count: {playerList.length}
-        </Typography>
+
         <Button
           sx={{
             size: 'small',
@@ -159,7 +157,7 @@ const GamePage: React.FC<GamePageProps> = ({ socket, status = 4, playerList, mes
             display: 'flex',
             bgcolor: '#37b2ab',
             '&:hover': { bgcolor: 'white', color: '#37b2ab' },
-            mr: '15px'
+            mr: '50px'
           }}
           variant="contained"
           onClick={handleLobby}

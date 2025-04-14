@@ -34,6 +34,7 @@ const LobbyPage: React.FC<LobbyPageProps> = ({ isConnected, socket }) => {
   };
 
 
+
   return (
     <Box
       sx={{
@@ -45,8 +46,7 @@ const LobbyPage: React.FC<LobbyPageProps> = ({ isConnected, socket }) => {
         minWidth: '100vw',
         // A modern gradient background:
         background: 'linear-gradient(135deg, #1a202c 65%, #2b6cb0 100%);'
-      }}
-    >
+      }}>
       <Typography
           component="h1"
           sx={{
@@ -154,3 +154,100 @@ const LobbyPage: React.FC<LobbyPageProps> = ({ isConnected, socket }) => {
 };
 
 export default LobbyPage;
+
+  /////// using images as background
+//   return (
+//     <Box
+//       sx={{
+//         position: 'relative',
+//         minHeight: '100vh',
+//         width: '100vw',
+//         // Use your advanced logo as the background image (in public folder)
+//         backgroundImage: 'url(/picPrompt_advanced.webp)',
+//         backgroundSize: 'cover',
+//         backgroundPosition: 'center',
+//         backgroundRepeat: 'no-repeat',
+//       }}
+//     >
+//       {/* Dark overlay for readability */}
+//       <Box
+//         sx={{
+//           position: 'absolute',
+//           top: 0,
+//           left: 0,
+//           width: '100%',
+//           height: '100%',
+//           bgcolor: 'rgba(0, 0, 0, 0.4)',
+//           zIndex: 1,
+//         }}
+//       />
+//       {/* Content on top of the background */}
+//       <Box
+//         sx={{
+//           position: 'relative',
+//           zIndex: 2,
+//           display: 'flex',
+//           flexDirection: 'column',
+//           alignItems: 'center',
+//           justifyContent: 'center',
+//           minHeight: '100vh',
+//           px: 2,
+//         }}
+//       >
+//         <Typography variant="h3" sx={{ color: 'white', mb: 2 }}>
+//           Welcome to PicPrompt!
+//         </Typography>
+//         <FormControl sx={{ mb: 2, width: '300px' }}>
+//           <Input
+//             type="text"
+//             placeholder="Enter your name"
+//             value={name}
+//             onChange={(e) => setName(e.target.value)}
+//             sx={{
+//               color: '#2d3748',
+//               bgcolor: 'white',
+//               borderRadius: 1,
+//               fontSize: '1.25rem',
+//               px: 1,
+//               py: 0.5,
+//             }}
+//           />
+//         </FormControl>
+//         <FormControl sx={{ mb: 4, width: '300px' }}>
+//           <Input
+//             type="text"
+//             placeholder="Enter lobby ID (optional)"
+//             value={lobbyPin}
+//             onChange={(e) => setLobbyPin(e.target.value)}
+//             sx={{
+//               color: '#2d3748',
+//               bgcolor: 'white',
+//               borderRadius: 1,
+//               fontSize: '1.25rem',
+//               px: 1,
+//               py: 0.5,
+//             }}
+//           />
+//         </FormControl>
+//         <Box sx={{ display: 'flex', gap: 2 }}>
+//           <Button
+//             variant="contained"
+//             onClick={handleCreateLobby}
+//             sx={{ bgcolor: '', '&:hover': { bgcolor: '#56A8F1' } }}
+//           >
+//             Create Lobby
+//           </Button>
+//           <Button
+//             variant="contained"
+//             onClick={handleJoinLobby}
+//             sx={{ bgcolor: '#37b2ab', '&:hover': { bgcolor: '#56A8F1' } }}
+//           >
+//             Join Lobby
+//           </Button>
+//         </Box>
+//       </Box>
+//     </Box>
+//   );
+// };
+
+// export default LobbyPage;
