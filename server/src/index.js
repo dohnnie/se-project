@@ -23,15 +23,17 @@ app.use(express.json());
 app.use(express.static('public'));
 
 const { Server } = require('socket.io');
-const io = new Server(expressServer, () => {
+const io = new Server(expressServer, {
   cors: {
-    origin: `http://localhost:${PORT}`;
-    methods: ["GET", "POST"];
+    origin: `http://localhost:${PORT}`,
+    methods: ["GET", "POST"],
   }
 });
 
 let players = [];
 let prompts = {};
+let prevTime = null;
+let start = false;
 
 const initGame = (playerList, time) => {
   if (playerList.length > 0 && playerList !== null) {
@@ -66,6 +68,12 @@ io.on('connection', socket => {
     console.log(`${socket.id} has rejoined`);
   } else {
 
+    if (start) {
+      setInterval(() => {
+        console.log("40 seconds have passed");
+      }, 40000);
+
+    }
     socket.on('create', (player) => {
       console.log(`${player.name} has joined a lobby`);
       players.push(player);
@@ -83,6 +91,8 @@ io.on('connection', socket => {
       console.log(message);
       const initData = initGame(players, 40);
       io.emit('gameStart', initData);
+      prevTime = Date.now();
+      start = true;
     });
 
     socket.on('submitPrompt', (promptData) => {
@@ -118,6 +128,8 @@ io.on('connection', socket => {
     });
   }
 });
+
+
 
 // Image generation route
 app.post('/api/generate-image', async (req, res) => {
