@@ -138,6 +138,7 @@ const GamePage: React.FC<GamePageProps> = ({ socket, status = 4, playerList, mes
               backgroundSize: '200%',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
+              
               animation: 'gradientShift 3s ease infinite',
               '@keyframes gradientShift': {
                 '0%': { backgroundPosition: '0%' },
@@ -155,6 +156,7 @@ const GamePage: React.FC<GamePageProps> = ({ socket, status = 4, playerList, mes
             size: 'small',
             minHeight: '5vh',
             display: 'flex',
+            fontFamily: '"Comic Sans MS", cursive, sans-serif',
             bgcolor: '#37b2ab',
             '&:hover': { bgcolor: 'white', color: '#37b2ab' },
             mr: '50px'

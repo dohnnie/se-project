@@ -16,9 +16,9 @@ const PlayerList = ({ players }) => {
         border: '1px solid transparent',
         borderImage: 'linear-gradient(90deg, #2b6cb0, #37b2ab) 1',
         boxShadow: '0px 4px 10px rgba(150, 200, 240, 0.4)',
-        padding: '10px',
+        padding: '1px',
         margin: '5px',
-        mt: '12vh',
+        mt: '7vh',
         gap: '12px',
       }}
     >
@@ -29,7 +29,7 @@ const PlayerList = ({ players }) => {
     fontSize: '70px',
     fontWeight: 'bold',
     position: 'relative',
-    p: '0px',
+    p: '10px',
     mx: 'auto',         // Auto horizontal margins center the element
     textAlign: 'center',  // Center the text within the element
     color: 'white',       // Fallback color (won't be visible due to clipping)
@@ -38,6 +38,7 @@ const PlayerList = ({ players }) => {
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
     letterSpacing: '0.25rem',
+    fontFamily: '"Comic Sans MS", cursive, sans-serif',
     mb: 4
   }}
 >

@@ -94,6 +94,7 @@ const GameArea: React.FC<GameAreaProps> = ({ socket, status, setImageUrl, curren
             sx={{
               color: 'white',
               fontWeight: 'bold',
+              fontFamily: '"Comic Sans MS", cursive, sans-serif',
               textTransform: 'uppercase',
               letterSpacing: '0.15rem',
             }}
@@ -108,6 +109,7 @@ const GameArea: React.FC<GameAreaProps> = ({ socket, status, setImageUrl, curren
                 '50%': { transform: timeRemaining > 5 ? 'scale(1.2) rotate(2deg)' : 'scale(1.5) rotate(2deg)' },
               },
               fontWeight: 'bold',
+              fontFamily: '"Comic Sans MS", cursive, sans-serif',
               letterSpacing: '0.25rem',
               color: timeRemaining > 10 ? 'green' : timeRemaining > 5 ? '#f0c330' : '#ff0000',
               textShadow: '2px 2px 4px rgba(0,0,0,0.6)',
@@ -220,7 +222,7 @@ const GameArea: React.FC<GameAreaProps> = ({ socket, status, setImageUrl, curren
       <Box
         sx={{
           display: 'flex',
-          my: '10px',
+          my: '-150px',
           maxHeight: '50vh',
           maxWidth: '50%',
         }}
@@ -229,11 +231,10 @@ const GameArea: React.FC<GameAreaProps> = ({ socket, status, setImageUrl, curren
           <LoadingArea />
         ) : (
           <img
-            src={imageUrl ? imageUrl : '/picPrompt_advanced.webp'}
+            src={imageUrl ? imageUrl : '/picPrompt_simple_design.png'}
             alt={imageUrl ? 'Generated image' : 'Placeholder image'}
             height="100%"
             width="100%"
-            style={{ border: '5px solid #37b2ab', borderRadius: '40px' }}
           />
         )}
       </Box>
@@ -241,12 +242,13 @@ const GameArea: React.FC<GameAreaProps> = ({ socket, status, setImageUrl, curren
       {/* Conditional prompt input form based on status (2 for prompting, 3 for guessing) */}
       <Box component="form" onSubmit={handlePromptSubmission}>
         {status === 2 ? (
-          <Box sx={{ mt: 4, width: '80%', mx: 'auto' }}>
+          <Box sx={{ mt: 38, width: '80%', mx: 'auto' }}>
             <Typography
               variant="h6"
               sx={{
                 color: 'white',
                 textAlign: 'center',
+                fontFamily: '"Comic Sans MS", cursive, sans-serif',
                 mb: 2,
                 fontStyle: 'italic',
                 fontSize: '1.5rem',
@@ -263,6 +265,7 @@ const GameArea: React.FC<GameAreaProps> = ({ socket, status, setImageUrl, curren
                 sx={{
                   width: '100%',
                   height: '5vh',
+                  fontFamily: '"Comic Sans MS", cursive, sans-serif',
                   bgcolor: 'white',
                   borderRadius: '5px',
                   mr: '40px',
@@ -275,6 +278,7 @@ const GameArea: React.FC<GameAreaProps> = ({ socket, status, setImageUrl, curren
                 sx={{
                   width: '10%',
                   height: '5vh',
+                  fontFamily: '"Comic Sans MS", cursive, sans-serif',
                   bgcolor: '#1a202b',
                   '&:hover': { bgcolor: '#56A8F1', color: 'black' },
                   color: 'white',
@@ -285,7 +289,7 @@ const GameArea: React.FC<GameAreaProps> = ({ socket, status, setImageUrl, curren
             </FormControl>
           </Box>
         ) : status === 3 ? (
-          <Box sx={{ mt: 1, width: '100%', mx: 'auto' }}>
+          <Box sx={{ mt: 38, width: '100%', mx: 'auto' }}>
             <Typography
               variant="h6"
               sx={{
