@@ -47,8 +47,13 @@ const App: React.FC = () => {
     }
 
     const handleEndPhase = (roundData) => {
-      console.log("Round over!");
-      socket.emit("nextPhase", { message: "Start next Round", status: status });
+      console.log("Round over! nextStatus: ", roundData.statusCode);
+      setStatus(roundData.statusCode);
+      if (roundData.statusCode === 5) {
+        socket.emit('stopTimer');
+      } else {
+        socket.emit("nextPhase", { message: "Start next Round" });
+      }
     }
 
     socket.on('connected', onConnect);

@@ -1,4 +1,3 @@
-
 const express = require('express');
 const cors = require('cors');
 const Replicate = require('replicate');
@@ -30,29 +29,16 @@ const io = new Server(expressServer, {
   }
 });
 
-let players = [];
-let prompts = {};
-let status = 0;
-let start = false;
+/*
+ * Events for the server to check and fire 
+ * startGame: This event creates initial values the server needs in order to start the game
+ * Prompt: Handles submissios by players, and does different things depending on whether the prompter or guess submitted a prompt
+ * Votes: Handles calculating the amount of votes a prompt receives and which prompt recieved the most votes
+ * Turns: When each round starts, sets values back to initial round values
+ */
 
-// Game functions
-const initGame = (playerList, time) => {
-  if (playerList.length > 0 && playerList !== null) {
-    const prompter = playerList[0];
-    return ({
-      prompter: prompter.id,
-      listIndex: 0,
-      startTime: time,
-      round: 1,
-      cycle: 1,
-      status: 2,
-    });
-  } else {
-    return ({
-      error: "Error not enough players in the lobby",
-    });
-  }
-}
+const game = require('./game.js');
+const { gAttr } = require('./game.js');
 
 let phaseInterval = null;
 
@@ -64,8 +50,18 @@ const startTimer = () => {
   }
 
   phaseInterval = setInterval(() => {
-    io.emit('phaseEnd', "Begin!");
+    gAttr.status = game.changePhases(gAttr.status);
+    io.emit('phaseEnd',
+      {
+        message: "Begin!",
+        statusCode: gAttr.status,
+      });
     console.log("5 seconds have passed")
+    console.log("Moving to stage: ", gAttr.status);
+
+    if (gAttr.status === 5) {
+      stopPhaseTimer();
+    }
   }, 5000);
   console.log("Timer Started");
 }
@@ -77,14 +73,6 @@ const stopPhaseTimer = () => {
     console.log("Stopping timer");
   }
 }
-
-/*
- * Events for the server to check and fire 
- * startGame: This event creates initial values the server needs in order to start the game
- * Prompt: Handles submissios by players, and does different things depending on whether the prompter or guess submitted a prompt
- * Votes: Handles calculating the amount of votes a prompt receives and which prompt recieved the most votes
- * Turns: When each round starts, sets values back to initial round values
- */
 
 io.on('connection', socket => {
   console.log(`${socket.id} has joined the server!`);
@@ -100,17 +88,22 @@ io.on('connection', socket => {
       stopPhaseTimer();
       console.log("Starting next phase!");
       console.log(phaseData.message);
-      console.log(phaseData.status);
+      startTimer();
+    });
+
+    socket.on('stopTimer', () => {
+      console.log("Stopping phase timer");
+      stopPhaseTimer();
     });
 
     // When a client clicks the create button on the lobby page, this event fires adding a player to a list of active players
     // and sending that list to every connected client
     socket.on('create', (player) => {
       console.log(`${player.name} has joined a lobby`);
-      players.push(player);
-      io.emit('updateList', [...players]);
+      gAttr.players.push(player);
+      io.emit('updateList', [...gAttr.players]);
       // This fires twice to make sure that the client is receiving the updated list
-      socket.on('requestList', () => io.emit([...players]));
+      socket.on('requestList', () => io.emit([...gAttr.players]));
     });
 
 
@@ -124,7 +117,7 @@ io.on('connection', socket => {
     // when players are ready they will click a butotn that fires this event, and initializes data for the start of the game
     socket.on('start', (message) => {
       console.log(message);
-      const initData = initGame(players, 40);
+      const initData = game.initGame(gAttr.players, 40);
       io.emit('gameStart', initData);
       // Starts the timer
       startTimer();
@@ -135,39 +128,37 @@ io.on('connection', socket => {
     socket.on('submitPrompt', (promptData) => {
       console.log(promptData);
       const prompt = promptData.prompt;
-      prompts[prompt] = {
+      gAttr.prompts[prompt] = {
         votes: 0,
         player: promptData.player,
         promptId: promptData.promptId,
         playerId: promptData.id
       };
-      io.emit("promptReceived", prompts);
+      io.emit("promptReceived", gAttr.prompts);
     });
 
     // When players click on a prompt to vote it will get the amount of votes for the current prompt, and increments it by one
     socket.on('voteSubmitted', (voteData) => {
       const prompt = voteData.prompt
-      console.log(prompts[prompt][votes]);
-      if (prompts[prompt].votes > 1) {
-        let voteCount = prompts[prompt];
+      console.log(gAttr.prompts[prompt][votes]);
+      if (gAttr.prompts[prompt].votes > 1) {
+        let voteCount = game.prompts[prompt];
         voteCount++;
-        prompts[prompt] = voteCount;
+        gAttr.prompts[prompt] = voteCount;
       } else {
-        prompts[prompt] = 1;
       }
+      gAttr.prompts[prompt] = 1;
     });
 
     // Disconnecting
     socket.on('disconnect', () => {
       console.log(`A ${socket.id} has disconnected`);
-      players = players.filter(player => player.id !== socket.id);
-      io.emit('updateList', players);
+      gAttr.players = gAttr.players.filter(player => player.id !== socket.id);
+      io.emit('updateList', gAttr.players);
       socket.disconnect();
     });
   }
 });
-
-
 
 // Image generation route
 app.post('/api/generate-image', async (req, res) => {
