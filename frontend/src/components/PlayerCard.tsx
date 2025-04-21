@@ -8,15 +8,30 @@ const PlayerCard = ({ player }) => {
   const [points, setPoints] = useState(() => 0);
 
   const name = player.name;
+  const id = player.id;
   
   const [isOverflowing, setIsOverflowing] = useReactState(false);
   const nameRef = useRef(null);
+
+  const isYou = 
+    sessionStorage.getItem('name') === name && 
+    sessionStorage.getItem('id') === id;
+
+  const isPrompter = (player) => {
+    // add logic to determine if player is prompting
+    return false;
+  };
+
+  const topPlayer = (player) => {
+    // add logic to determine if player is winning
+    return false;
+  };
 
   useEffect(() => {
     if(nameRef.current){
       setIsOverflowing(nameRef.current.scrollWidth > nameRef.current.clientWidth);
     }
-  }, [player.name]);
+  }, [name]);
 
   return (
     <Box sx={{
@@ -34,22 +49,25 @@ const PlayerCard = ({ player }) => {
         alignItems: 'center',
         gap: '10px',
       }}>
-        <Box
-          sx={{
-            width: 50,
-            height: 50,
-            bgcolor: '#004D17',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          <PersonIcon sx={{
-            fontSize: '35px',
-          }} />
-        </Box>
-        <Tooltip title={player.name} disableHoverListener={!isOverflowing}>
+        {isYou && (
+          <Box
+            sx={{
+              width: 50,
+              height: 50,
+              bgcolor: '#004D17',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <PersonIcon // is 'you'
+            sx={{
+              fontSize: '35px',
+            }} />
+          </Box>
+        )}
+        <Tooltip title={name} disableHoverListener={!isOverflowing}>
           <Typography 
             variant='h3'
             ref={nameRef}
@@ -61,7 +79,7 @@ const PlayerCard = ({ player }) => {
               textOverflow: 'ellipsis',
             }}
           >
-            {player.name}
+            {name}
           </Typography>
         </Tooltip>
       </Box>
@@ -69,17 +87,24 @@ const PlayerCard = ({ player }) => {
         sx={{
           display: 'flex',
           alignItems: 'center',
-          gap: '10px',
+          ml: '.5vw',
+          gap: '.1%',
         }}
       >
-        <BorderColorIcon sx={{
-          fontSize: '2rem',
-          color: '#F35B66',
-        }} />
-        <StarIcon sx={{
-          fontSize: '2.5rem',
-          color: '#F35B66',
-        }} />
+        {isPrompter(player) && (
+          <BorderColorIcon // is the prompter
+          sx={{
+            fontSize: '2rem',
+            color: '#F35B66',
+          }} />
+        )}
+        {topPlayer(player) && (
+          <StarIcon // top player
+          sx={{
+            fontSize: '2.5rem',
+            color: '#F35B66',
+          }} />
+        )}
         <Typography variant='h4'
           sx={{
             flexGrow: 1,
