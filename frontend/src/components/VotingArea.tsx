@@ -37,6 +37,8 @@ interface VotingAreaProps {
 }
 
 const VotingArea: React.FC<VotingAreaProps> = ({ socket, prompts, sharedImageUrl }): JSX.Element => {
+  const testPrompts = ["prompt1"];
+
   return (
     <>
       <Typography
@@ -88,8 +90,8 @@ const VotingArea: React.FC<VotingAreaProps> = ({ socket, prompts, sharedImageUrl
         >
           <Container>
             {
-              Object.entries(prompts).map(([prompt], index, []) => (
-                <Prompts socket={socket} prompt={prompt} />
+              prompts.map((promptData) => (
+                <Prompts socket={socket} prompt={promptData.prompt} />
               ))
             }
           </Container>

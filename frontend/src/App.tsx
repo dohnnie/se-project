@@ -9,11 +9,11 @@ const App: React.FC = () => {
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [activePlayers, setActivePlayers] = useState(() => []);
   const [messages, setMessages] = useState(() => []);
-  const [prompter, setPrompter] = useState('');
+  const prompter = useRef('');
   const [status, setStatus] = useState(() => 0);
   const [time, setTime] = useState(null);
   const messagesRef = useRef(messages);
-  const prompts = useRef({});
+  const [prompts, setPrompts] = useState(() => []);
 
   useEffect(() => {
     messagesRef.current = messages;
@@ -38,12 +38,12 @@ const App: React.FC = () => {
 
     const handleInitGame = (initData) => {
       setStatus(prevStatus => prevStatus = initData.status);
-      setPrompter(initData.prompter);
+      prompter.current = initData.prompter;
       setTime(initData.startTime);
     }
 
     const receiveNewPrompts = (promptData) => {
-      prompt.current = promptData;
+      setPrompts(() => promptData);
     }
 
     const handleEndPhase = (roundData) => {

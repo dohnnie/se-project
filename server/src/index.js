@@ -127,13 +127,9 @@ io.on('connection', socket => {
     // attributes associated with the prompt are needed to calculate point distribution.
     socket.on('submitPrompt', (promptData) => {
       console.log(promptData);
-      const prompt = promptData.prompt;
-      gAttr.prompts[prompt] = {
-        votes: 0,
-        player: promptData.player,
-        promptId: promptData.promptId,
-        playerId: promptData.id
-      };
+      // Save prompt text to list for display later
+      gAttr.prompts.push({ prompt: promptData.prompt, userId: promptData.playerId });
+      console.log("Prompt List: ", gAttr.prompts);
       io.emit("promptReceived", gAttr.prompts);
     });
 
