@@ -38,7 +38,7 @@ const changePhases = (status) => {
     case 3: return 4;
     // Transitioning from voting phase to round winner
     case 4:
-      return 4;
+      return 5;
     // Transitioning from round winner to either end game or back to voting phase
     case 5:
       console.log("In case 5 switch statement");
