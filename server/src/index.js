@@ -128,22 +128,22 @@ io.on('connection', socket => {
     socket.on('submitPrompt', (promptData) => {
       console.log(promptData);
       // Save prompt text to list for display later
-      gAttr.prompts.push({ prompt: promptData.prompt, userId: promptData.playerId });
+      gAttr.prompts.push({ prompt: promptData.prompt, userId: promptData.playerId, votes: 0 });
       console.log("Prompt List: ", gAttr.prompts);
       io.emit("promptReceived", gAttr.prompts);
     });
 
     // When players click on a prompt to vote it will get the amount of votes for the current prompt, and increments it by one
     socket.on('voteSubmitted', (voteData) => {
-      const prompt = voteData.prompt
-      console.log(gAttr.prompts[prompt][votes]);
-      if (gAttr.prompts[prompt].votes > 1) {
-        let voteCount = game.prompts[prompt];
-        voteCount++;
-        gAttr.prompts[prompt] = voteCount;
-      } else {
-      }
-      gAttr.prompts[prompt] = 1;
+      console.log(voteData);
+      gAttr.prompts.map((prompt) => {
+        if (prompt.playerId == voteData.playerId) {
+          let votes = prompt.votes;
+          votes++;
+          prompt.votes = votes;
+          console.log(prompt);
+        }
+      })
     });
 
     // Disconnecting
