@@ -11,6 +11,7 @@ import LoadingArea from './loadingArea';
  * isGuessing = 3
  * isVoting = 4
  * Vote over = 5
+ * Game over = 6
  */
 
 interface GameAreaProps {

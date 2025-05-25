@@ -9,11 +9,11 @@ const App: React.FC = () => {
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [activePlayers, setActivePlayers] = useState(() => []);
   const [messages, setMessages] = useState(() => []);
-  const [prompter, setPrompter] = useState('');
-  const [status, setStatus] = useState(() => 4);
+  const prompter = useRef('');
+  const [status, setStatus] = useState(() => 0);
   const [time, setTime] = useState(null);
   const messagesRef = useRef(messages);
-  const prompts = useRef({});
+  const [prompts, setPrompts] = useState(() => []);
 
   useEffect(() => {
     messagesRef.current = messages;
@@ -37,17 +37,23 @@ const App: React.FC = () => {
     }
 
     const handleInitGame = (initData) => {
-      setStatus(initData.status);
-      setPrompter(initData.prompter);
+      setStatus(prevStatus => prevStatus = initData.status);
+      prompter.current = initData.prompter;
       setTime(initData.startTime);
     }
 
     const receiveNewPrompts = (promptData) => {
-      prompt.current = promptData;
+      setPrompts(() => promptData);
     }
 
-    const handleEndRound = (roundData) => {
-
+    const handleEndPhase = (roundData) => {
+      console.log("Round over! nextStatus: ", roundData.statusCode);
+      setStatus(roundData.statusCode);
+      if (roundData.statusCode === 5) {
+        socket.emit('stopTimer');
+      } else {
+        socket.emit("nextPhase", { message: "Start next Round" });
+      }
     }
 
     socket.on('connected', onConnect);
@@ -55,7 +61,7 @@ const App: React.FC = () => {
     socket.on('updateList', updateList);
     socket.on('newMessage', newMessage);
     socket.on('gameStart', handleInitGame);
-    socket.on('endRound', handleEndRound);
+    socket.on('phaseEnd', handleEndPhase);
     socket.on('promptReceived', receiveNewPrompts);
 
     return () => {
@@ -64,7 +70,7 @@ const App: React.FC = () => {
       socket.off('updateList', updateList);
       socket.off('newMessage', newMessage);
       socket.off('gameStart', handleInitGame);
-      socket.off('endRound', handleEndRound);
+      socket.off('phaseEnd', handleEndPhase);
     };
   }, []);
 

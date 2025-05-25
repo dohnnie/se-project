@@ -23,7 +23,7 @@ const GamePage = ({ socket, status, playerList, messages, prompts }) => {
       case 0:
         return <WaitingArea socket={socket} />;
       case 4:
-        return <VotingArea socket={socket} prompts={prompts.current} sharedImageUrl={sharedImageUrl} />;
+        return <VotingArea socket={socket} prompts={prompts} sharedImageUrl={sharedImageUrl} />;
       case 5:
         return <WinningVoteArea winningPrompt={"cat"} winnerName={"Johnathan"} />;
       default:

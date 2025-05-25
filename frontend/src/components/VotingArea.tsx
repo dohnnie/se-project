@@ -1,12 +1,13 @@
 // frontend/src/components/VotingArea.tsx
 import { Box, Typography, Container, Button } from '@mui/material';
 
-const Prompts = ({ socket, prompt }) => {
+const Prompts = ({ socket, prompt, player }) => {
 
   const handleVoteSubmission = (e) => {
     e.preventDefault();
     socket.emit("voteSubmitted", {
       prompt: prompt,
+      playerId: player,
     })
   }
 
@@ -37,6 +38,7 @@ interface VotingAreaProps {
 }
 
 const VotingArea: React.FC<VotingAreaProps> = ({ socket, prompts, sharedImageUrl }): JSX.Element => {
+
   return (
     <>
       <Typography
@@ -88,8 +90,8 @@ const VotingArea: React.FC<VotingAreaProps> = ({ socket, prompts, sharedImageUrl
         >
           <Container>
             {
-              Object.entries(prompts).map(([prompt], index, []) => (
-                <Prompts socket={socket} prompt={prompt} />
+              prompts.map((promptData) => (
+                <Prompts socket={socket} prompt={promptData.prompt} player={promptData.playerId} />
               ))
             }
           </Container>
