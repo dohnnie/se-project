@@ -1,5 +1,7 @@
-import { Box, Typography, Container, FormControl, Input, Button } from '@mui/material';
-import { useState } from 'react';
+import { Box, Typography, Input, Button } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { useImageGeneration } from '../hooks/useImageGeneration';
+import LoadingArea from './loadingArea';
 
 /*
  * Possible statuses are:
@@ -9,105 +11,145 @@ import { useState } from 'react';
  * isGuessing = 3
  * isVoting = 4
  * Vote over = 5
+ * Game over = 6
  */
 
-const GameArea = ({ status = 2 }) => {
-    const [answer, setAnswer] = useState(() => '');
+interface GameAreaProps {
+  socket: any;
+  status?: number;
+  setImageUrl?: (url: string) => void;
+}
 
-    return (
-        <Box sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            maxWidth: "60vw"
-        }}>
-            {(status === 0) ? (
-                <Typography sx={{ fontSize: '75px' }}>Waiting for Players</Typography>
-            ) : (
-                <Container sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    bgcolor: 'grey',
-                    my: '50px'
-                }}>
-                    <Box sx={{
-                        bgcolor: 'white',
-                        borderRadius: '20px',
-                        mr: 'auto',
-                        p: '10px',
-                        display: 'flex',
-                        flexDirection: 'row'
-                    }}>
-                        {
-                            /*Prompting*/
-                            (status === 2) && (
-                                <>
-                                    <Typography sx={{ fontSize: '75px', mx: '5px' }}>John is prompting</Typography>
-                                    <Typography sx={{ fontSize: '75px', mx: '10px' }}>40s remaining</Typography>
-                                </>
-                            )
-                        }
+const GameArea = ({ socket, status, setImageUrl }) => {
+  const [prompt, setPrompt] = useState(() => '');
+  const { imageUrl, statusMessage, generateImage } = useImageGeneration();
 
-                        {
-                            /*Guessing*/
-                            (status === 3) && (
-                                <>
-                                    <Typography sx={{ fontSize: '75px' }}>Players are guessing</Typography>
-                                    <Typography sx={{ fontSize: '75px', mx: '10px' }}>20s remaining</Typography>
-                                </>
-                            )
-                        }
-                    </Box >
-                </Container>
-            )}
-            <Box sx={{
-                my: '10px',
-                borderRadius: '10px',
-                bgcolor: 'gold',
-                minHeight: '50vh',
-                maxHeight: '50vh',
-                minWidth: '100%',
-            }}>
-                <img
-                    src="/cat.webp"
-                    alt="Image of a cat licking it's cheek"
-                    height='100%'
-                    width='100%'
-                />
-            </Box>
-            <Box
-                component='form'
-                sx={{
-                    my: '20px'
-                }}
+  useEffect(() => {
+    if (setImageUrl && imageUrl) {
+      console.log('[GameArea] Lifting image URL to parent:', imageUrl);
+      setImageUrl(imageUrl);
+    }
+  }, [imageUrl, setImageUrl]);
+
+  const renderText = (testPlayer: string, testTime: number) => {
+    switch (status) {
+      case 1:
+        // Loading
+        return (<LoadingArea></LoadingArea>);
+      case 2:
+        //Prompting
+        return (
+          <>
+            <Typography sx={{ fontSize: '75px', m: '10px', }}>{testPlayer} is prompting</Typography>
+            <Typography sx={{ fontSize: '75px', m: '10px', }}>{testTime}s remaining</Typography>
+          </>
+        );
+      // Guessing
+      case 3:
+        return (
+          <>
+            <Typography sx={{ fontSize: '75px', m: '10px', }}>Players are guessing</Typography>
+            <Typography sx={{ fontSize: '75px', m: '10px', }}>{testTime}s remaining</Typography>
+          </>
+        );
+    }
+  }
+  const handlePromptSubmission = async (e) => {
+    e.preventDefault();
+    const promptData = {
+      prompt,
+      player: sessionStorage.getItem('name'),
+      playerId: sessionStorage.getItem('id'),
+      promptId: `${socket.id}${Math.random()}`,
+    };
+    socket.emit('submitPrompt', promptData);
+    await generateImage(prompt);
+  };
+
+  const testTime = 30;
+  const testPlayer = 'John';
+
+  return (
+    <Box sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      padding: '30px',
+      maxWidth: "60vw",
+      maxHeight: '92vh',
+      gap: '20px'
+    }}>
+      <Box sx={{
+        display: 'flex',
+        borderRadius: '20px',
+        bgcolor: '#56A8F1',
+        width: '95%',
+      }}>
+        {renderText(testPlayer, testTime)}
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          my: '10px',
+          maxHeight: '50vh',
+          maxWidth: '50%',
+        }}
+      >
+        {(status === 2) && (
+          <img
+            src={imageUrl ? imageUrl : 'cat.webp'}
+            alt={imageUrl ? 'Generated image' : 'Placeholder image'}
+            height="100%"
+            width="100%"
+            style={{
+              border: '5px solid #F35B66', borderRadius: '40px'
+            }}
+          />
+        )}
+      </Box>
+      <Box
+        component='form'
+      >
+        {(status !== 1) ?
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+            }}
+          >
+            <Input
+              type="text"
+              placeholder="Write Prompt"
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              sx={{
+                width: '100%',
+                height: '5vh',
+                bgcolor: 'white',
+                borderRadius: '5px',
+                mr: '5px',
+              }}
+            />
+            <Button
+              onClick={handlePromptSubmission}
+              variant="contained"
+              sx={{
+                width: '10%',
+                height: '5vh',
+                bgcolor: '#004d17',
+                '&:hover': { bgcolor: '#56A8F1', color: 'black' },
+                color: 'white'
+              }}
             >
-                <FormControl sx={{
-                    bgcolor: 'peru',
-                    display: 'flex',
-                    flexDirection: 'row',
-                }}>
-                    <Input
-                        type='text'
-                        placeholder='Write Answer'
-                        value={answer}
-                        onChange={(e) => setAnswer(e.target.value)}
-                        sx={{
-                            width: '80%',
-                            height: '5vh',
-                            mr: '100px'
-                        }}
-                    />
-                    <Button
-                        variant='contained'
-                        sx={{
-                            width: '10%',
-                            height: '5vh',
-                        }}>
-                        SEND
-                    </Button>
-                </FormControl>
-            </Box>
-        </Box>
-    );
+              SEND
+            </Button>
+          </Box>
+          :
+          <></>
+        }
+      </Box>
+    </Box>
+  );
 }
 
 export default GameArea;

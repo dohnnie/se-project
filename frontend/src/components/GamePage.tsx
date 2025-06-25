@@ -1,144 +1,92 @@
-import React from 'react';
+// frontend/src/components/GamePage.tsx
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Box, Button, Typography, Divider } from '@mui/material';
-import PlayerCard from './PlayerCard';
-import ChatBody from './ChatBody';
-import ChatFooter from './ChatFooter';
+import { Container, Box, Button, Typography } from '@mui/material';
+import PlayerList from './PlayerList';
+import Chat from './Chat';
 import GameArea from './GameArea';
 import VotingArea from './VotingArea';
+import WaitingArea from './WaitingArea';
+import WinningVoteArea from './WinningVoteArea';
 
-const GamePage = ({ socket, status = 2 }) => {
-    const navigate = useNavigate();
+const GamePage = ({ socket, status, playerList, messages, prompts }) => {
+  const navigate = useNavigate();
+  const [sharedImageUrl, setSharedImageUrl] = useState<string | null>(null);
 
-    const playerList = [
-        { name: 'John', points: 10 },
-        { name: 'Ryan', points: 25 },
-        { name: 'Jose', points: 4 },
-        { name: 'Tom', points: 100 },
-        { name: 'Mark', points: 44 },
-    ];
+  const handleLobby = (event: React.FormEvent) => {
+    event.preventDefault();
+    navigate('/');
+  };
 
-    const answers = [
-        "cat",
-        "dog",
-        "animal",
-        "This is a default prompt answer"
-    ];
+  const renderGameContent = () => {
+    switch (status) {
+      case 0:
+        return <WaitingArea socket={socket} />;
+      case 4:
+        return <VotingArea socket={socket} prompts={prompts} sharedImageUrl={sharedImageUrl} />;
+      case 5:
+        return <WinningVoteArea winningPrompt={"cat"} winnerName={"Johnathan"} />;
+      default:
+        return <GameArea socket={socket} status={status} setImageUrl={setSharedImageUrl} />;
+    }
+  };
 
-    const handleLobby = (event) => {
-        event.preventDefault();
-        navigate('/');
-    };
-
-    return (
-        <Box
-            sx={{
-                bgcolor: 'black',
-                maxHeight: '100vh',
-                maxWidth: '100vw',
-                display: "flex",
-                flexDirection: "column",
-                m: '0px',
-            }}>
-            <Box
-                sx={{
-                    bgcolor: 'hotpink',
-                    minHeight: '8vh',
-                    minWidth: '100%',
-                    border: 2,
-                    borderColor: 'cyan',
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    padding: "0 16px",
-                }}
-            >
-                <Typography component='h1'
-                    sx={{
-                        fontSize: '70px',
-                        m: 1,
-                    }}
-                >
-                    Picprompt
-                </Typography>
-                <Button
-                    variant='text'
-                    onClick={handleLobby}
-                    sx={{
-                        size: 'small',
-                        minHeight: '5vh',
-                        display: 'flex',
-                        color: 'black',
-                        m: 1,
-                    }}
-                >
-                    Lobbies
-                </Button>
-            </Box>
-            <Box
-                sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    minHeight: '92vh',
-                    minWidth: '100vw',
-                    maxWidth: '100vw',
-                }}>
-                <Box
-                    sx={{
-                        bgcolor: 'blue',
-                        minHeight: '92vh',
-                        minWidth: '10vw',
-                        borderRadius: '15px',
-                    }}
-                >
-                    <Typography
-                        component='h1'
-                        sx={{
-                            fontSize: '70px',
-                            display: 'flex',
-                            alignContent: 'center',
-                            justifyContent: 'center',
-                            bgcolor: 'white',
-                        }}
-                    >
-                        Players
-                    </Typography>
-                    <Divider />
-                    {playerList.map(player =>
-                        <PlayerCard player={player} />)}
-                </Box>
-                <Container
-                    sx={{
-                        bgcolor: 'red',
-                        minHeight: '92vh',
-                        minWidth: '60vw',
-                        maxWidth: '60%',
-                        flexGrow: 1,
-                        justifyConent: "center",
-                        alignItems: "center",
-                        padding: "16px"
-                    }}
-                >
-                    {(status !== 4) ? (<GameArea status={status} />) : (<VotingArea prompts={answers} />)}
-                </Container>
-                <Box
-                    sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        minHeight: '92vh',
-                        minWidth: "15%",
-                        maxWidth: '20%',
-                        bgcolor: 'orange',
-                        justifyContent: "space-between",
-                    }}
-                >
-                    <ChatBody />
-                    <ChatFooter />
-                </Box>
-            </Box>
-        </Box>
-    );
+  return (
+    <Box
+      sx={{
+        bgcolor: '#4D0036',
+        maxHeight: '100vh',
+        maxWidth: '100vw',
+        display: "flex",
+        flexDirection: "column"
+      }}>
+      <Box
+        sx={{
+          bgcolor: '#F35B66',
+          minHeight: '8vh',
+          maxHeight: '10vh',
+          minWidth: '100vw',
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Typography component='h1' sx={{ fontSize: '70px', padding: '5px', ml: '15px' }}>Picprompt</Typography>
+        <Typography>Player Count: {playerList.length}</Typography>
+        <Button
+          sx={{
+            size: 'small',
+            minHeight: '5vh',
+            display: 'flex',
+            bgcolor: '#004D17',
+            '&:hover': { bgcolor: '#56A8F1', color: 'black' },
+            mr: '15px',
+          }}
+          variant='contained'
+          onClick={handleLobby}
+        >
+          Leave Game
+        </Button>
+      </Box>
+      <Box sx={{ display: "flex", flexDirection: "row", minHeight: '92vh', maxHeight: '92vh', minWidth: '100vw', maxWidth: '100vw' }}>
+        <PlayerList players={playerList} />
+        <Container
+          sx={{
+            bgcolor: '#4D0036',
+            minHeight: '92vh',
+            maxHeight: '92vh',
+            minWidth: '60vw',
+            maxWidth: '60vw',
+            flexGrow: 1,
+          }}
+        >
+          {renderGameContent()}
+        </Container>
+        <Chat socket={socket} messages={messages} />
+      </Box>
+    </Box>
+  );
 };
 
 export default GamePage;
